@@ -2,8 +2,10 @@ import sys
 
 import pygame
 
-from paddle import Paddle
 from ball import Ball
+from functions import check_collision
+from game_stats import GameStats
+from paddle import Paddle
 
 
 def run_game():
@@ -11,6 +13,7 @@ def run_game():
     bg_colour = (200, 200, 200)
     screen = pygame.display.set_mode((1200, 600))
     pygame.display.set_caption("Ping Pong Game")
+    stats = GameStats()
 
     paddle = Paddle(screen)
     ball = Ball(screen)
@@ -32,12 +35,13 @@ def run_game():
                     case pygame.K_d:
                         paddle.moving_right = False
 
-
-        screen.fill(bg_colour)
-        paddle.update_position()
-        paddle.render()
-        ball.update_position()
-        ball.render()
+        if stats.game_active:
+            screen.fill(bg_colour)
+            paddle.update_position()
+            paddle.render()
+            ball.update_position_env()
+            ball.render()
+            check_collision(paddle, ball, stats)
 
         pygame.display.flip()
 

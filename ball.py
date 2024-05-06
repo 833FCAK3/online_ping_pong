@@ -25,8 +25,8 @@ class Ball:
     def render(self):
         pygame.draw.rect(self.screen, self.ball_colour, self.rect)
 
-    def update_position(self):
-        if self.frame % 10 == 0:  # Slows down the ball
+    def update_position_env(self):
+        if self.frame % 5 == 0:  # Slows down the ball
             if self.moving_left and self.rect.left > self.screen_rect.left:
                 self.rect.x -= 1
             elif self.moving_right and self.rect.right < self.screen_rect.right:
@@ -43,7 +43,5 @@ class Ball:
                 self.moving_left, self.moving_right = True, False
             if self.rect.top == self.screen_rect.top:
                 self.moving_up, self.moving_down = False, True
-            if self.rect.bottom == self.screen_rect.bottom:
-                print("Potracheno")
 
         self.frame += 1
