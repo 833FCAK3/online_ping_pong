@@ -7,18 +7,23 @@ from functions import check_collision
 from game_stats import GameStats
 from menu import Button
 from paddle import Paddle
+from settings import Settings
 
 
 def run_game():
+    # Initialize screen, game settings and statistics
     pygame.init()
-    bg_colour = (200, 200, 200)
-    screen = pygame.display.set_mode((1200, 600))
+    settings = Settings()
+    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Ping Pong Game")
     stats = GameStats()
+
+    # Menu buttons
     restart_button = Button(screen, "Restart")
 
-    paddle = Paddle(screen)
-    ball = Ball(screen)
+    # Game entities
+    paddle = Paddle(screen, settings)
+    ball = Ball(screen, settings)
 
     while True:
         for event in pygame.event.get():
@@ -38,7 +43,7 @@ def run_game():
                         paddle.moving_right = False
 
         if stats.game_active:
-            screen.fill(bg_colour)
+            screen.fill(settings.bg_colour)
             paddle.update_position()
             paddle.render()
             ball.update_position_env()
