@@ -7,9 +7,10 @@ class Settings:
         self.screen_width = 1200
         self.screen_height = 600
         self.bg_colour = (200, 200, 200)
+        self.fps = 60
 
         # Paddle settings
-        self.paddle_width, self.paddle_height = 150, 25
+        self.paddle_width, self.paddle_height = 180, 25
         self.paddle_colour = (0, 255, 0)
         self.paddle_speed = 1
 

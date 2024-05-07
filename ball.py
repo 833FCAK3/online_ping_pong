@@ -16,9 +16,9 @@ class Ball:
         self.frame = 0
 
         # Dimensions and properties of the paddle, randomize starting position
-        self.x = randint(self.screen_rect.left, self.screen_rect.right)
-        self.y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
         self.width, self.height = self.settings.ball_width, self.settings.ball_height
+        self.x = randint(self.screen_rect.left + self.width, self.screen_rect.right - self.width)
+        self.y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
         self.ball_colour = self.settings.ball_colour
 
         # Build the ball's rect object
@@ -36,7 +36,7 @@ class Ball:
 
     def update_position_env(self) -> None:
         """Update the balls's position, based on movement flags"""
-        if self.frame % 7 == 0:  # Slows down the ball
+        if self.frame % 1 == 0:  # Slows down the ball
             if self.moving_left and self.rect.left > self.screen_rect.left:
                 self.rect.x -= 1
             elif self.moving_right and self.rect.right < self.screen_rect.right:

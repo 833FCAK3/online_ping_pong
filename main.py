@@ -10,13 +10,14 @@ from paddle import Paddle
 from settings import Settings
 
 
-def run_game():
+def run_game(lock_fps: bool):
     # Initialize screen, game settings and statistics
     pygame.init()
     settings = Settings()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Ping Pong Game")
     stats = GameStats()
+    clock = pygame.time.Clock()
 
     # Menu buttons
     restart_button = Button(screen, "Restart")
@@ -54,5 +55,10 @@ def run_game():
             restart_button.render()
         pygame.display.flip()
 
+        # Limit fps
+        if lock_fps:
+            clock.tick(settings.fps)
 
-run_game()
+
+if __name__ == "__main__":
+    run_game(lock_fps=True)
