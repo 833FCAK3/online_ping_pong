@@ -1,4 +1,5 @@
 from random import choice, randint
+from typing import Tuple
 
 import pygame
 
@@ -17,8 +18,7 @@ class Ball:
 
         # Dimensions and properties of the paddle, randomize starting position
         self.width, self.height = self.settings.ball_width, self.settings.ball_height
-        self.x = randint(self.screen_rect.left + self.width, self.screen_rect.right - self.width)
-        self.y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
+        self.x, self.y = self.randomize_initial_coords()
         self.ball_colour = self.settings.ball_colour
 
         # Build the ball's rect object
@@ -30,23 +30,40 @@ class Ball:
         self.moving_down = choice([False, True])
         self.moving_up = not self.moving_down
 
-    def render(self) -> None:
-        """Draw the ball at its current location"""
-        pygame.draw.rect(self.screen, self.ball_colour, self.rect)
+    def randomize_initial_coords(self) -> Tuple[int, int]:
+        """Returns two random numbers within limits of screen resolution"""
+        x = randint(self.screen_rect.left + self.width, self.screen_rect.right - self.width)
+        y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
+        return x, y
+
+    def respawn_ball(self) -> None:
+        """Respawns the ball at random location at the top part of the screen"""
+        self.rect.left, self.rect.top = self.randomize_initial_coords()
 
     def update_position_env(self) -> None:
         """Update the balls's position, based on movement flags"""
         if self.frame % 1 == 0:  # Slows down the ball
+            # Adjust horizontal position
             if self.moving_left and self.rect.left > self.screen_rect.left:
-                self.rect.x -= 1
+                self.rect.x -= self.settings.ball_speed
             elif self.moving_right and self.rect.right < self.screen_rect.right:
-                self.rect.x += 1
+                self.rect.x += self.settings.ball_speed
 
+            # Adjust vertical position
             if self.moving_up and self.rect.top > self.screen_rect.top:
-                self.rect.y -= 1
+                self.rect.y -= self.settings.ball_speed
             elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-                self.rect.y += 1
+                self.rect.y += self.settings.ball_speed
 
+            # Unstuck the ball from outside the screen borders
+            if self.rect.left < self.screen_rect.left:
+                self.rect.left = self.screen_rect.left
+            elif self.rect.right > self.screen_rect.right:
+                self.rect.right = self.screen_rect.right
+            if self.rect.top < self.screen_rect.top:
+                self.rect.top = self.screen_rect.top
+
+            # Change direction TODO: move to check_ball_collision
             if self.rect.left == self.screen_rect.left:
                 self.moving_left, self.moving_right = False, True
             if self.rect.right == self.screen_rect.right:
@@ -55,3 +72,7 @@ class Ball:
                 self.moving_up, self.moving_down = False, True
 
         self.frame += 1
+
+    def render(self) -> None:
+        """Draw the ball at its current location"""
+        pygame.draw.rect(self.screen, self.ball_colour, self.rect)

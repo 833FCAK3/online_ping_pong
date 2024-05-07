@@ -11,7 +11,6 @@ class Button:
         self.button_colour = (0, 200, 0)
         self.text_colour = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
-        print(str(self.font))
 
         # Build the paddle's rect object, and center it
         self.rect = pygame.Rect(0, 0, self.width, self.height)

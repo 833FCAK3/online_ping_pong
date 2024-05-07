@@ -25,9 +25,9 @@ class Paddle:
         self.moving_left = False
         self.moving_right = False
 
-    def render(self) -> None:
-        """Draw the paddle at its current location"""
-        pygame.draw.rect(self.screen, self.paddle_colour, self.rect)
+    def center_paddle(self) -> None:
+        """Center the paddle on the screen"""
+        self.x = self.screen_rect.centerx - self.width / 2
 
     def update_position(self) -> None:
         """Update the paddle's position, based on movement flags"""
@@ -35,3 +35,7 @@ class Paddle:
             self.rect.x -= self.settings.paddle_speed
         elif self.moving_right and self.rect.right < self.screen_rect.right:
             self.rect.x += self.settings.paddle_speed
+
+    def render(self) -> None:
+        """Draw the paddle at its current location"""
+        pygame.draw.rect(self.screen, self.paddle_colour, self.rect)

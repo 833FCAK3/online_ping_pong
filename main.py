@@ -3,7 +3,7 @@ import sys
 import pygame
 
 from ball import Ball
-from functions import check_collision
+from functions import check_ball_collision, check_restart_button
 from game_stats import GameStats
 from menu import Button
 from paddle import Paddle
@@ -42,6 +42,9 @@ def run_game(lock_fps: bool):
                         paddle.moving_left = False
                     case pygame.K_d:
                         paddle.moving_right = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                check_restart_button(stats, restart_button, paddle, ball, mouse_x, mouse_y)
 
         if stats.game_active:
             screen.fill(settings.bg_colour)
@@ -49,7 +52,7 @@ def run_game(lock_fps: bool):
             paddle.render()
             ball.update_position_env()
             ball.render()
-            check_collision(paddle, ball, stats)
+            check_ball_collision(paddle, ball, stats)
 
         if not stats.game_active:
             restart_button.render()
