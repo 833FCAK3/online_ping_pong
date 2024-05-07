@@ -5,6 +5,7 @@ import pygame
 from ball import Ball
 from functions import check_collision
 from game_stats import GameStats
+from menu import Button
 from paddle import Paddle
 
 
@@ -14,6 +15,7 @@ def run_game():
     screen = pygame.display.set_mode((1200, 600))
     pygame.display.set_caption("Ping Pong Game")
     stats = GameStats()
+    restart_button = Button(screen, "Restart")
 
     paddle = Paddle(screen)
     ball = Ball(screen)
@@ -43,6 +45,8 @@ def run_game():
             ball.render()
             check_collision(paddle, ball, stats)
 
+        if not stats.game_active:
+            restart_button.render()
         pygame.display.flip()
 
 

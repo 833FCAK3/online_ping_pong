@@ -2,7 +2,7 @@ import pygame
 
 
 class Paddle:
-    def __init__(self, screen) -> None:
+    def __init__(self, screen: pygame.Surface) -> None:
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
