@@ -7,16 +7,18 @@ from functions import check_ball_collision, check_restart_button
 from game_stats import GameStats
 from menu import Button, Text
 from paddle import Paddle
+from scoreboard import Scoreboard
 from settings import Settings
 
 
 def run_game(lock_fps: bool):
-    # Initialize screen, game settings, statistics, fps limiter
+    # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()
     stats = GameStats(settings)
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Ping Pong Game")
+    scoreboard = Scoreboard(screen, settings, stats)
     clock = pygame.time.Clock()
 
     # Menu items
@@ -45,7 +47,7 @@ def run_game(lock_fps: bool):
                         paddle.moving_right = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                check_restart_button(stats, restart_button, paddle, ball, mouse_x, mouse_y)
+                check_restart_button(stats, scoreboard, restart_button, paddle, ball, mouse_x, mouse_y)
 
         if stats.game_active:
             screen.fill(settings.bg_colour)
@@ -53,7 +55,8 @@ def run_game(lock_fps: bool):
             paddle.render()
             ball.update_position_env()
             ball.render()
-            check_ball_collision(paddle, ball, stats)
+            check_ball_collision(paddle, ball, stats, scoreboard)
+            scoreboard.lives.draw(screen)
 
         if not stats.game_active:
             restart_button.render()

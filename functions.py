@@ -4,9 +4,10 @@ from ball import Ball
 from game_stats import GameStats
 from menu import Button
 from paddle import Paddle
+from scoreboard import Scoreboard
 
 
-def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats):
+def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats, scoreboard: Scoreboard):
     """Checks collisions of the ball with the paddle and bottom of the screen, reduces life count in the latter case.
     Utilizes 'vulnerable' flag to not take away multiple lives for one mistake"""
     if ball.rect.colliderect(paddle.rect):
@@ -15,13 +16,16 @@ def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats):
             stats.vulnerable = True
     elif ball.rect.bottom >= ball.screen_rect.bottom and stats.vulnerable:
         stats.lives_left -= 1
+        scoreboard.prep_lives()
         stats.vulnerable = False
         if stats.lives_left == 0:
             stats.game_active = False
             pygame.mouse.set_visible(True)
 
 
-def check_restart_button(stats: GameStats, restart_button: Button, paddle: Paddle, ball: Ball, mouse_x, mouse_y):
+def check_restart_button(
+    stats: GameStats, scoreboard: Scoreboard, restart_button: Button, paddle: Paddle, ball: Ball, mouse_x, mouse_y
+):
     """Starts and restarts the game"""
     if not stats.game_started:
         stats.game_started = True
@@ -35,3 +39,4 @@ def check_restart_button(stats: GameStats, restart_button: Button, paddle: Paddl
         # Reset game stats
         stats.game_active = True
         stats.reset_stats()
+        scoreboard.prep_lives()
