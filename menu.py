@@ -1,9 +1,12 @@
 import pygame
 import pygame.freetype
 
+from game_stats import GameStats
+
 
 class Button:
-    def __init__(self, screen: pygame.Surface, msg: str) -> None:
+    def __init__(self, screen: pygame.Surface, stats: GameStats, msg: str, alt_msg: str = "") -> None:
+        self.stats = stats
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
@@ -19,14 +22,20 @@ class Button:
         self.rect.center = self.screen_rect.center
 
         self.msg = msg
+        self.alt_msg = alt_msg
 
         self.msg_rect = self.font.render(self.msg, self.text_colour)[1]
         self.msg_rect.center = self.screen_rect.center
+        self.alt_msg_rect = self.font.render(self.alt_msg, self.text_colour)[1]
+        self.alt_msg_rect.center = self.screen_rect.center
 
     def render(self):
         """Draw the button on the screen"""
+        text = self.msg if self.stats.game_started else self.alt_msg
+        rect = self.msg_rect if self.stats.game_started else self.alt_msg_rect
+
         self.screen.fill(self.button_colour, self.rect)
-        self.font.render_to(self.screen, self.msg_rect, self.msg, self.text_colour)
+        self.font.render_to(self.screen, rect, text, self.text_colour)
 
 
 class Text:

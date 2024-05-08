@@ -20,7 +20,7 @@ def run_game(lock_fps: bool):
     clock = pygame.time.Clock()
 
     # Menu items
-    restart_button = Button(screen, "Restart")
+    restart_button = Button(screen, stats, "Restart", "Start")
     game_over_msg = Text(screen, "GAME JOEVER!")
 
     # Game entities

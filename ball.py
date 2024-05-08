@@ -18,11 +18,10 @@ class Ball:
 
         # Dimensions and properties of the paddle, randomize starting position
         self.width, self.height = self.settings.ball_width, self.settings.ball_height
-        self.x, self.y = self.randomize_initial_coords()
         self.ball_colour = self.settings.ball_colour
 
         # Build the ball's rect object
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.rect = pygame.Rect(0, 0, self.width, self.height)
 
         # Randomize starting direction
         self.moving_left = choice([False, True])
