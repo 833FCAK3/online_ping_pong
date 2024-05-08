@@ -15,7 +15,10 @@ def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats):
 
 
 def check_restart_button(stats: GameStats, restart_button: Button, paddle: Paddle, ball: Ball, mouse_x, mouse_y):
-    """Restarts the game"""
+    """Starts and restarts the game"""
+    if not stats.game_started:
+        stats.game_started = True
+
     button_clicked = restart_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         pygame.mouse.set_visible(False)

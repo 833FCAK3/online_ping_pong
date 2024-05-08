@@ -57,7 +57,8 @@ def run_game(lock_fps: bool):
 
         if not stats.game_active:
             restart_button.render()
-            game_over_msg.render()
+            if stats.game_started:
+                game_over_msg.render()
 
         pygame.display.flip()
 

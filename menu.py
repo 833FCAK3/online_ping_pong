@@ -41,10 +41,10 @@ class Text:
         self.font = pygame.freetype.SysFont("none", 54)
         self.text = text
 
-    def render(self) -> None:
-        """Renders the text to the screen"""
         self.rect = self.font.render(self.text, self.text_colour)[1]
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = int(self.screen_rect.height / 5)
 
+    def render(self) -> None:
+        """Renders the text to the screen"""
         self.font.render_to(self.screen, self.rect, self.text, self.text_colour)
