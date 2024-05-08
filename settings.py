@@ -5,9 +5,10 @@ class Settings:
         """Initialize the game's static settings"""
         # Screen settings
         self.screen_width = 1200
-        self.screen_height = 650
+        self.screen_height = 700
         self.bg_colour = (200, 200, 200)
-        self.fps = 60
+        self.fps = 161
+        self.fps_adjusment = self.fps // 60
 
         # Paddle settings
         self.paddle_width, self.paddle_height = 180, 25

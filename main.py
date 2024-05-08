@@ -5,7 +5,7 @@ import pygame
 from ball import Ball
 from functions import check_ball_collision, check_restart_button
 from game_stats import GameStats
-from menu import Button
+from menu import Button, Text
 from paddle import Paddle
 from settings import Settings
 
@@ -19,8 +19,9 @@ def run_game(lock_fps: bool):
     stats = GameStats()
     clock = pygame.time.Clock()
 
-    # Menu buttons
+    # Menu items
     restart_button = Button(screen, "Restart")
+    game_over_msg = Text(screen, "GAME JOEVER!")
 
     # Game entities
     paddle = Paddle(screen, settings)
@@ -56,6 +57,8 @@ def run_game(lock_fps: bool):
 
         if not stats.game_active:
             restart_button.render()
+            game_over_msg.render()
+
         pygame.display.flip()
 
         # Limit fps

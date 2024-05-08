@@ -42,7 +42,7 @@ class Ball:
 
     def update_position_env(self) -> None:
         """Update the balls's position, based on movement flags"""
-        if self.frame % 1 == 0:  # Slows down the ball
+        if self.frame % self.settings.fps_adjusment == 0:  # Slows down the ball to ~ 60 fps speed
             # Adjust horizontal position
             if self.moving_left and self.rect.left > self.screen_rect.left:
                 self.rect.x -= self.settings.ball_speed

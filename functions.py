@@ -10,7 +10,6 @@ def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats):
     if ball.rect.colliderect(paddle.rect):
         ball.moving_down, ball.moving_up = False, True
     if ball.rect.bottom >= ball.screen_rect.bottom:
-        print("Potracheno")
         stats.game_active = False
         pygame.mouse.set_visible(True)
 
