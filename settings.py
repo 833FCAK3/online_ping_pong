@@ -15,7 +15,10 @@ class Settings:
         self.paddle_colour = (0, 255, 0)
         self.paddle_speed = 10
 
-        # ball settings
+        # Ball settings
         self.ball_width, self.ball_height = 50, 50
         self.ball_colour = (0, 0, 0)
         self.ball_speed = 8
+
+        # Game settings
+        self.total_lives = 3

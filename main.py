@@ -11,12 +11,12 @@ from settings import Settings
 
 
 def run_game(lock_fps: bool):
-    # Initialize screen, game settings and statistics
+    # Initialize screen, game settings, statistics, fps limiter
     pygame.init()
     settings = Settings()
+    stats = GameStats(settings)
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Ping Pong Game")
-    stats = GameStats()
     clock = pygame.time.Clock()
 
     # Menu items
