@@ -1,9 +1,7 @@
-import sys
-
 import pygame
 
 from ball import Ball
-from functions import check_ball_collision, check_restart_button
+from functions import check_events, update_positioning, update_screen
 from game_stats import GameStats
 from menu import Button, Text
 from paddle import Paddle
@@ -30,40 +28,9 @@ def run_game(lock_fps: bool):
     ball = Ball(screen, settings)
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                match event.key:
-                    case pygame.K_a:
-                        paddle.moving_left = True
-                    case pygame.K_d:
-                        paddle.moving_right = True
-            elif event.type == pygame.KEYUP:
-                match event.key:
-                    case pygame.K_a:
-                        paddle.moving_left = False
-                    case pygame.K_d:
-                        paddle.moving_right = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                check_restart_button(stats, scoreboard, restart_button, paddle, ball, mouse_x, mouse_y)
-
-        if stats.game_active:
-            screen.fill(settings.bg_colour)
-            paddle.update_position()
-            paddle.render()
-            ball.update_position_env()
-            ball.render()
-            check_ball_collision(paddle, ball, stats, scoreboard)
-            scoreboard.lives.draw(screen)
-
-        if not stats.game_active:
-            restart_button.render()
-            if stats.game_started:
-                game_over_msg.render()
-
-        pygame.display.flip()
+        check_events(paddle, stats, scoreboard, restart_button, ball)
+        update_positioning(paddle, ball, stats, scoreboard)
+        update_screen(screen, settings, paddle, stats, scoreboard, restart_button, ball, game_over_msg)
 
         # Limit fps
         if lock_fps:
