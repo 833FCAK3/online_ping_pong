@@ -27,14 +27,16 @@ class Paddle:
 
     def center_paddle(self) -> None:
         """Center the paddle on the screen"""
-        self.x = self.screen_rect.centerx - self.width / 2
+        self.rect.x = int(self.screen_rect.centerx - self.width / 2)
 
     def update_position(self) -> None:
         """Update the paddle's position, based on movement flags"""
         if self.moving_left and self.rect.left > self.screen_rect.left:
-            self.rect.x -= self.settings.paddle_speed
+            self.x -= self.settings.paddle_speed
         elif self.moving_right and self.rect.right < self.screen_rect.right:
-            self.rect.x += self.settings.paddle_speed
+            self.x += self.settings.paddle_speed
+
+        self.rect.x = int(self.x)
 
     def render(self) -> None:
         """Draw the paddle at its current location"""

@@ -11,8 +11,8 @@ from settings import Settings
 
 
 def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats, scoreboard: Scoreboard) -> None:
-    """Checks collisions of the ball with the paddle and bottom of the screen, reduces life count in the latter case.
-    Utilizes 'vulnerable' flag to not take away multiple lives for one mistake"""
+    """Changes ball's direction on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case.
+    Utilizes 'vulnerable' flag to not take away multiple lives in sigle bottom touch"""
     if ball.rect.colliderect(paddle.rect):
         ball.moving_down, ball.moving_up = False, True
         if ball.rect.bottom >= ball.screen_rect.bottom:
@@ -24,6 +24,14 @@ def check_ball_collision(paddle: Paddle, ball: Ball, stats: GameStats, scoreboar
         if stats.lives_left == 0:
             stats.game_active = False
             pygame.mouse.set_visible(True)
+
+    # Change direction
+    if ball.rect.left == ball.screen_rect.left:
+        ball.moving_left, ball.moving_right = False, True
+    if ball.rect.right == ball.screen_rect.right:
+        ball.moving_left, ball.moving_right = True, False
+    if ball.rect.top == ball.screen_rect.top:
+        ball.moving_up, ball.moving_down = False, True
 
 
 def check_restart_button(
@@ -71,7 +79,7 @@ def update_positioning(paddle: Paddle, ball: Ball, stats: GameStats, scoreboard:
     """Updates positioning of the game objects"""
     if stats.game_active:
         paddle.update_position()
-        ball.update_position_env()
+        ball.update_position()
 
         check_ball_collision(paddle, ball, stats, scoreboard)
 
