@@ -29,6 +29,7 @@ def check_ball_collision(
         if stats.lives_left == 0:
             stats.game_active = False
             pygame.mouse.set_visible(True)
+            return
 
     # Change direction on collision with left, top or right side of the screen
     if ball.rect.left == ball.screen_rect.left:
@@ -105,7 +106,7 @@ def update_screen(
     game_over_msg: Text,
 ) -> None:
     """Updates images on the screen, and flips to the new screen."""
-    if stats.game_active:
+    if stats.game_started:
         screen.fill(settings.bg_colour)
         paddle.render()
         scoreboard.lives.draw(screen)
