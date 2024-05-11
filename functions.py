@@ -20,6 +20,7 @@ def check_ball_collision(
             stats.direction_speed_change_lock = True
             ball.moving_down, ball.moving_up = False, True
             ball.speed *= settings.speed_up_factor
+            scoreboard.score()
         if ball.rect.bottom >= ball.screen_rect.bottom:
             stats.vulnerable = True
     elif ball.rect.bottom >= ball.screen_rect.bottom and stats.vulnerable:
@@ -27,6 +28,8 @@ def check_ball_collision(
         scoreboard.prep_lives()
         stats.vulnerable = False
         if stats.lives_left == 0:
+            if stats.score > scoreboard.high_score:
+                scoreboard.high_score = stats.score
             stats.game_active = False
             pygame.mouse.set_visible(True)
             return

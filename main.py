@@ -14,7 +14,7 @@ def run_game(lock_fps: bool):
     pygame.init()
     settings = Settings()
     stats = GameStats(settings)
-    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
+    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height), display=0)
     pygame.display.set_caption("Ping Pong Game")
     scoreboard = Scoreboard(screen, settings, stats)
     clock = pygame.time.Clock()

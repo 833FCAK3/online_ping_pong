@@ -11,9 +11,9 @@ class Settings:
         self.fps_adjusment = self.fps // 60
 
         # Paddle settings
-        self.paddle_width, self.paddle_height = 250, 40
+        self.paddle_width, self.paddle_height = 300, 40
         self.paddle_colour = (0, 255, 0)
-        self.paddle_speed = 25
+        self.paddle_speed = 30
 
         # Ball settings
         self.ball_width, self.ball_height = 50, 50

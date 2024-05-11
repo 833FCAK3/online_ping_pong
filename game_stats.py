@@ -16,3 +16,5 @@ class GameStats:
     def reset_stats(self):
         self.lives_left = self.settings.total_lives
         self.vulnerable = True
+        self.strikes = 0
+        self.score = 0
