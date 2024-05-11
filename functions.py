@@ -91,7 +91,6 @@ def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, resta
                 case pygame.K_SPACE:
                     restart_game(stats, scoreboard, paddle, ball)
                 case pygame.K_q:
-                    pygame.quit()
                     sys.exit()
         elif event.type == pygame.KEYUP:
             match event.key:
