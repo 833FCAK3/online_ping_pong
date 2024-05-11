@@ -1,7 +1,10 @@
+from abc import ABC
+
 import pygame
 import pygame.freetype
 
 from game_stats import GameStats
+from scoreboard import Scoreboard
 
 
 class Button:
@@ -38,20 +41,56 @@ class Button:
         self.font.render_to(self.screen, rect, text, self.text_colour)
 
 
-class Text:
-    def __init__(self, screen: pygame.Surface, msg: str) -> None:
+class BaseText(ABC):
+    def __init__(self, screen: pygame.Surface) -> None:
         self.screen = screen
         self.screen_rect = screen.get_rect()
+        self.msg: str
+        self.rect: pygame.rect.Rect
 
         # Text parameters
         self.text_colour = (255, 255, 255)
         self.font = pygame.freetype.SysFont("None", 54)
-        self.msg = msg
+
+    def render(self) -> None:
+        """Renders the msg to the screen"""
+        self.font.render_to(self.screen, self.rect, self.msg, self.text_colour)
+
+
+class GameJoever(BaseText):
+    def __init__(self, screen: pygame.Surface) -> None:
+        super(GameJoever, self).__init__(screen)
+        self.msg = "GAME JOEVER"
 
         self.rect = self.font.render(self.msg, self.text_colour)[1]
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = int(self.screen_rect.height / 5)
 
-    def render(self) -> None:
-        """Renders the msg to the screen"""
-        self.font.render_to(self.screen, self.rect, self.msg, self.text_colour)
+
+class Score(BaseText):
+    def __init__(self, screen: pygame.Surface, stats: GameStats) -> None:
+        super(Score, self).__init__(screen)
+        self.stats = stats
+        self.reposition()
+
+    def reposition(self) -> None:
+        self.msg = str(self.stats.score)
+
+        self.rect = self.font.render(self.msg, self.text_colour)[1]
+        self.rect.right = self.screen_rect.right - 25
+        self.rect.centery = int(self.screen_rect.top + 40)
+
+
+class HighScore(BaseText):
+    def __init__(self, screen: pygame.Surface, scoreboard: Scoreboard) -> None:
+        super(HighScore, self).__init__(screen)
+        self.scoreboard = scoreboard
+        self.reposition()
+
+    def reposition(self) -> None:
+        self.msg = str(self.scoreboard.high_score)
+
+        self.rect = self.font.render(self.msg, self.text_colour)[1]
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centery = int(self.screen_rect.height / 3)
+

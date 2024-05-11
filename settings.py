@@ -13,12 +13,12 @@ class Settings:
         # Paddle settings
         self.paddle_width, self.paddle_height = 300, 40
         self.paddle_colour = (0, 255, 0)
-        self.paddle_speed = 30
+        self.paddle_speed = 35
 
         # Ball settings
         self.ball_width, self.ball_height = 50, 50
         self.ball_colour = (0, 0, 0)
-        self.ball_speed = 6.5
+        self.ball_speed = 8
         self.speed_up_factor = 1.05
 
         # Game settings

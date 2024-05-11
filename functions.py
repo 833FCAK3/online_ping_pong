@@ -4,14 +4,20 @@ import pygame
 
 from ball import Ball
 from game_stats import GameStats
-from menu import Button, Text
+from menu import Button, GameJoever, HighScore, Score
 from paddle import Paddle
 from scoreboard import Scoreboard
 from settings import Settings
 
 
 def check_ball_collision(
-    paddle: Paddle, ball: Ball, stats: GameStats, scoreboard: Scoreboard, settings: Settings
+    paddle: Paddle,
+    ball: Ball,
+    stats: GameStats,
+    scoreboard: Scoreboard,
+    settings: Settings,
+    score_msg: Score,
+    high_score_msg: HighScore,
 ) -> None:
     """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case.
     Utilizes 'vulnerable' flag to not take away multiple lives in sigle bottom touch"""
@@ -21,6 +27,7 @@ def check_ball_collision(
             ball.moving_down, ball.moving_up = False, True
             ball.speed *= settings.speed_up_factor
             scoreboard.score()
+            score_msg.reposition()
         if ball.rect.bottom >= ball.screen_rect.bottom:
             stats.vulnerable = True
     elif ball.rect.bottom >= ball.screen_rect.bottom and stats.vulnerable:
@@ -30,6 +37,7 @@ def check_ball_collision(
         if stats.lives_left == 0:
             if stats.score > scoreboard.high_score:
                 scoreboard.high_score = stats.score
+                high_score_msg.reposition()
             stats.game_active = False
             pygame.mouse.set_visible(True)
             return
@@ -91,13 +99,19 @@ def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, resta
 
 
 def update_positioning(
-    paddle: Paddle, ball: Ball, stats: GameStats, scoreboard: Scoreboard, settings: Settings
+    paddle: Paddle,
+    ball: Ball,
+    stats: GameStats,
+    scoreboard: Scoreboard,
+    settings: Settings,
+    score_msg: Score,
+    high_score_msg: HighScore,
 ) -> None:
     """Updates positioning of the game objects"""
     paddle.update_position()
     ball.update_position()
 
-    check_ball_collision(paddle, ball, stats, scoreboard, settings)
+    check_ball_collision(paddle, ball, stats, scoreboard, settings, score_msg, high_score_msg)
 
 
 def update_screen(
@@ -108,16 +122,20 @@ def update_screen(
     scoreboard: Scoreboard,
     restart_button: Button,
     ball: Ball,
-    game_over_msg: Text,
+    game_over_msg: GameJoever,
+    score_msg: Score,
+    high_score_msg: HighScore,
 ) -> None:
     """Updates images on the screen, and flips to the new screen."""
     if stats.game_started:
         screen.fill(settings.bg_colour)
         paddle.render()
         scoreboard.lives.draw(screen)
+        score_msg.render()
         ball.render()
 
     if not stats.game_active:
+        high_score_msg.render()
         restart_button.render()
         if stats.game_started:
             game_over_msg.render()
