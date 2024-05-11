@@ -4,16 +4,16 @@ class Settings:
     def __init__(self):
         """Initialize the game's static settings"""
         # Screen settings
-        self.screen_width = 1200
-        self.screen_height = 700
+        self.screen_width = 1920
+        self.screen_height = 1080
         self.bg_colour = (200, 200, 200)
-        self.fps = 161
+        self.fps = 60
         self.fps_adjusment = self.fps // 60
 
         # Paddle settings
-        self.paddle_width, self.paddle_height = 180, 25
+        self.paddle_width, self.paddle_height = 250, 40
         self.paddle_colour = (0, 255, 0)
-        self.paddle_speed = 10
+        self.paddle_speed = 25
 
         # Ball settings
         self.ball_width, self.ball_height = 50, 50
