@@ -29,7 +29,7 @@ def run_game(lock_fps: bool):
 
     while True:
         check_events(paddle, stats, scoreboard, restart_button, ball)
-        update_positioning(paddle, ball, stats, scoreboard)
+        update_positioning(paddle, ball, stats, scoreboard, settings)
         update_screen(screen, settings, paddle, stats, scoreboard, restart_button, ball, game_over_msg)
 
         # Limit fps

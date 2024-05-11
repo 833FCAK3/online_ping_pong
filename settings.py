@@ -18,7 +18,8 @@ class Settings:
         # Ball settings
         self.ball_width, self.ball_height = 50, 50
         self.ball_colour = (0, 0, 0)
-        self.ball_speed = 8
+        self.ball_speed = 6.5
+        self.speed_up_factor = 1.05
 
         # Game settings
         self.total_lives = 3

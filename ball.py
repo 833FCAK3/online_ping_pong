@@ -34,24 +34,25 @@ class Ball:
         self.y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
 
     def respawn_ball(self) -> None:
-        """Respawns the ball at random location at the top part of the screen"""
+        """Respawns the ball at random location at the top part of the screen and resets its speed"""
         self.randomize_initial_coords()
         self.rect.left, self.rect.top = self.x, self.y
+        self.speed = float(self.settings.ball_speed)
 
     def update_position(self) -> None:
         """Update the balls's position, based on movement flags"""
         if self.frame % self.settings.fps_adjusment == 0:  # Slows down the ball to ~ 60 fps speed
             # Adjust horizontal position
             if self.moving_left and self.rect.left > self.screen_rect.left:
-                self.x -= self.settings.ball_speed
+                self.x -= self.speed
             elif self.moving_right and self.rect.right < self.screen_rect.right:
-                self.x += self.settings.ball_speed
+                self.x += self.speed
 
             # Adjust vertical position
             if self.moving_up and self.rect.top > self.screen_rect.top:
-                self.y -= self.settings.ball_speed
+                self.y -= self.speed
             elif self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-                self.y += self.settings.ball_speed
+                self.y += self.speed
 
             self.rect.x, self.rect.y = int(self.x), int(self.y)
 

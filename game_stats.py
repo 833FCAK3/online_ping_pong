@@ -11,6 +11,7 @@ class GameStats:
         # Game state
         self.game_active = False
         self.game_started = False
+        self.direction_speed_change_lock = False
 
     def reset_stats(self):
         self.lives_left = self.settings.total_lives
