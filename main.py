@@ -34,16 +34,7 @@ def run_game(lock_fps: bool):
         if stats.game_active:
             update_positioning(paddle, ball, stats, scoreboard, settings, score_msg, high_score_msg)
         update_screen(
-            screen,
-            settings,
-            paddle,
-            stats,
-            scoreboard,
-            restart_button,
-            ball,
-            game_over_msg,
-            score_msg,
-            high_score_msg,
+            screen, settings, paddle, stats, scoreboard, restart_button, ball, game_over_msg, score_msg, high_score_msg
         )
 
         # Limit fps

@@ -59,10 +59,15 @@ def check_restart_button(
 ) -> None:
     """Starts and restarts the game"""
     button_clicked = restart_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked and not stats.game_started:
+    if button_clicked:
+        restart_game(stats, scoreboard, paddle, ball)
+
+def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball) -> None:
+    """Starts and restarts the game"""
+    if not stats.game_started:
         stats.game_started = True
 
-    if button_clicked and not stats.game_active:
+    if not stats.game_active:
         pygame.mouse.set_visible(False)
         paddle.center_paddle()
         ball.respawn_ball()
@@ -71,7 +76,6 @@ def check_restart_button(
         stats.game_active = True
         stats.reset_stats()
         scoreboard.prep_lives()
-
 
 def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, restart_button: Button, ball: Ball) -> None:
     """Responds to keypresses and mouse events."""
@@ -84,6 +88,8 @@ def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, resta
                     paddle.moving_left = True
                 case pygame.K_d:
                     paddle.moving_right = True
+                case pygame.K_SPACE:
+                    restart_game(stats, scoreboard, paddle, ball)
                 case pygame.K_q:
                     pygame.quit()
                     sys.exit()
