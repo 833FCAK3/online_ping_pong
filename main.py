@@ -23,14 +23,14 @@ def run_game(lock_fps: bool):
     restart_button = Button(screen, stats, "Restart", "Start")
     game_over_msg = GameJoever(screen)
     score_msg = Score(screen, stats)
-    high_score_msg = HighScore(screen, scoreboard)
+    high_score_msg = HighScore(screen, stats)
 
     # Game entities
     paddle = Paddle(screen, settings)
     ball = Ball(screen, settings)
 
     while True:
-        check_events(paddle, stats, scoreboard, restart_button, ball)
+        check_events(paddle, stats, scoreboard, restart_button, ball, score_msg)
         if stats.game_active:
             update_positioning(paddle, ball, stats, scoreboard, settings, score_msg, high_score_msg)
         update_screen(

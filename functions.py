@@ -35,8 +35,8 @@ def check_ball_collision(
         scoreboard.prep_lives()
         stats.vulnerable = False
         if stats.lives_left == 0:
-            if stats.score > scoreboard.high_score:
-                scoreboard.high_score = stats.score
+            if stats.score > stats.high_score:
+                stats.high_score = stats.score
                 high_score_msg.reposition()
             stats.game_active = False
             pygame.mouse.set_visible(True)
@@ -55,14 +55,22 @@ def check_ball_collision(
 
 
 def check_restart_button(
-    stats: GameStats, scoreboard: Scoreboard, restart_button: Button, paddle: Paddle, ball: Ball, mouse_x, mouse_y
+    stats: GameStats,
+    scoreboard: Scoreboard,
+    restart_button: Button,
+    paddle: Paddle,
+    ball: Ball,
+    score_msg: Score,
+    mouse_x,
+    mouse_y,
 ) -> None:
     """Starts and restarts the game"""
     button_clicked = restart_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked:
-        restart_game(stats, scoreboard, paddle, ball)
+        restart_game(stats, scoreboard, paddle, ball, score_msg)
 
-def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball) -> None:
+
+def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball, score_msg: Score) -> None:
     """Starts and restarts the game"""
     if not stats.game_started:
         stats.game_started = True
@@ -76,8 +84,12 @@ def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball:
         stats.game_active = True
         stats.reset_stats()
         scoreboard.prep_lives()
+        score_msg.reposition()
 
-def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, restart_button: Button, ball: Ball) -> None:
+
+def check_events(
+    paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, restart_button: Button, ball: Ball, score_msg: Score
+) -> None:
     """Responds to keypresses and mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -89,7 +101,7 @@ def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, resta
                 case pygame.K_d:
                     paddle.moving_right = True
                 case pygame.K_SPACE:
-                    restart_game(stats, scoreboard, paddle, ball)
+                    restart_game(stats, scoreboard, paddle, ball, score_msg)
                 case pygame.K_q:
                     sys.exit()
         elif event.type == pygame.KEYUP:
@@ -100,7 +112,7 @@ def check_events(paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, resta
                     paddle.moving_right = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_restart_button(stats, scoreboard, restart_button, paddle, ball, mouse_x, mouse_y)
+            check_restart_button(stats, scoreboard, restart_button, paddle, ball, score_msg, mouse_x, mouse_y)
 
 
 def update_positioning(

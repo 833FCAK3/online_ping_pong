@@ -16,8 +16,6 @@ class Scoreboard:
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
-        self.high_score = 0
-
         self.prep_lives()
 
     def prep_lives(self) -> None:

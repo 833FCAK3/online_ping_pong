@@ -82,15 +82,14 @@ class Score(BaseText):
 
 
 class HighScore(BaseText):
-    def __init__(self, screen: pygame.Surface, scoreboard: Scoreboard) -> None:
+    def __init__(self, screen: pygame.Surface, stats: GameStats) -> None:
         super(HighScore, self).__init__(screen)
-        self.scoreboard = scoreboard
+        self.stats = stats
         self.reposition()
 
     def reposition(self) -> None:
-        self.msg = str(self.scoreboard.high_score)
+        self.msg = str(self.stats.high_score)
 
         self.rect = self.font.render(self.msg, self.text_colour)[1]
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = int(self.screen_rect.height / 3)
-
