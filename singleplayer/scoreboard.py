@@ -1,9 +1,9 @@
 import pygame
 from pygame.sprite import Group
 
-from game_stats import GameStats
-from life import Life
-from settings import Settings
+from singleplayer.game_stats import GameStats
+from singleplayer.life import Life
+from singleplayer.settings import Settings
 
 
 class Scoreboard:

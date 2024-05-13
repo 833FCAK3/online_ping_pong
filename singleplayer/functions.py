@@ -2,12 +2,12 @@ import sys
 
 import pygame
 
-from ball import Ball
-from game_stats import GameStats
-from menu import Button, GameJoever, HighScore, Score
-from paddle import Paddle
-from scoreboard import Scoreboard
-from settings import Settings
+from singleplayer.ball import Ball
+from singleplayer.game_stats import GameStats
+from singleplayer.menu import Button, GameJoever, HighScore, Score
+from singleplayer.paddle import Paddle
+from singleplayer.scoreboard import Scoreboard
+from singleplayer.settings import Settings
 
 
 def check_ball_collision(

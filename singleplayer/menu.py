@@ -3,7 +3,7 @@ from abc import ABC
 import pygame
 import pygame.freetype
 
-from game_stats import GameStats
+from singleplayer.game_stats import GameStats
 
 
 class Button:

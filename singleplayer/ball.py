@@ -2,7 +2,7 @@ from random import choice, randint
 
 import pygame
 
-from settings import Settings
+from singleplayer.settings import Settings
 
 
 class Ball:
