@@ -11,6 +11,6 @@ class Life(Sprite):
         self.screen_rect = screen.get_rect()
 
         # Get the life image, scale it down and get its rect
-        self.image = pygame.image.load("images/life.png")
+        self.image = pygame.image.load("singleplayer/images/life.png")
         self.image = pygame.transform.scale(self.image, (32, 29))
         self.rect = self.image.get_rect()
