@@ -13,10 +13,6 @@ class GameStats:
         self.game_started = False
         self.direction_speed_change_lock = False
 
-        self.high_score = 0
-
     def reset_stats(self):
         self.lives_left = self.settings.total_lives
         self.vulnerable = True
-        self.strikes = 0
-        self.score = 0

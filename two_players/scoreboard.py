@@ -26,8 +26,3 @@ class Scoreboard:
             life.rect.x = 10 + life_number * life.rect.width
             life.rect.y = 10
             self.lives.add(life)
-
-    def score(self) -> None:
-        """Increments the score"""
-        self.stats.strikes += 1
-        self.stats.score += 10 * self.stats.strikes

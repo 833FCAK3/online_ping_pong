@@ -4,7 +4,7 @@ import pygame
 
 from two_players.ball import Ball
 from two_players.game_stats import GameStats
-from two_players.menu import Button, GameJoever, HighScore, Score
+from two_players.menu import Button, GameJoever
 from two_players.paddle import Paddle
 from two_players.scoreboard import Scoreboard
 from two_players.settings import Settings
@@ -17,23 +17,16 @@ def check_ball_collision(
     stats: GameStats,
     scoreboard: Scoreboard,
     settings: Settings,
-    score_msg: Score,
-    high_score_msg: HighScore,
 ) -> None:
     """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case"""
     if ball.rect.collidelist([paddle_1.rect, paddle_2.rect]) >= 0:
         stats.direction_speed_change_lock = True
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
         ball.speed *= settings.speed_up_factor
-        scoreboard.score()
-        score_msg.reposition()
     elif ball.rect.bottom >= ball.screen_rect.bottom:
         stats.lives_left -= 1
         scoreboard.prep_lives()
         if stats.lives_left == 0:
-            if stats.score > stats.high_score:
-                stats.high_score = stats.score
-                high_score_msg.reposition()
             stats.game_active = False
             pygame.mouse.set_visible(True)
             return
@@ -48,23 +41,23 @@ def check_ball_collision(
     if ball.rect.top <= ball.screen_rect.top:
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
 
+
 def check_restart_button(
     stats: GameStats,
     scoreboard: Scoreboard,
     restart_button: Button,
     paddle: Paddle,
     ball: Ball,
-    score_msg: Score,
     mouse_x,
     mouse_y,
 ) -> None:
     """Starts and restarts the game"""
     button_clicked = restart_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked:
-        restart_game(stats, scoreboard, paddle, ball, score_msg)
+        restart_game(stats, scoreboard, paddle, ball)
 
 
-def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball, score_msg: Score) -> None:
+def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball) -> None:
     """Starts and restarts the game"""
     if not stats.game_started:
         stats.game_started = True
@@ -78,7 +71,6 @@ def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball:
         stats.game_active = True
         stats.reset_stats()
         scoreboard.prep_lives()
-        score_msg.reposition()
 
 
 def check_events(
@@ -88,7 +80,6 @@ def check_events(
     scoreboard: Scoreboard,
     restart_button: Button,
     ball: Ball,
-    score_msg: Score,
 ) -> None:
     """Responds to keypresses and mouse events."""
     for event in pygame.event.get():
@@ -105,7 +96,7 @@ def check_events(
                 case pygame.K_RIGHT:
                     paddle_2.moving_right = True
                 case pygame.K_SPACE:
-                    restart_game(stats, scoreboard, paddle_1, ball, score_msg)
+                    restart_game(stats, scoreboard, paddle_1, ball)
                 case pygame.K_q:
                     sys.exit()
         elif event.type == pygame.KEYUP:
@@ -120,7 +111,7 @@ def check_events(
                     paddle_2.moving_right = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_restart_button(stats, scoreboard, restart_button, paddle_1, ball, score_msg, mouse_x, mouse_y)
+            check_restart_button(stats, scoreboard, restart_button, paddle_1, ball, mouse_x, mouse_y)
 
 
 def update_positioning(
@@ -130,15 +121,13 @@ def update_positioning(
     stats: GameStats,
     scoreboard: Scoreboard,
     settings: Settings,
-    score_msg: Score,
-    high_score_msg: HighScore,
 ) -> None:
     """Updates positioning of the game objects"""
     paddle_1.update_position()
     paddle_2.update_position()
     ball.update_position()
 
-    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, score_msg, high_score_msg)
+    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings)
 
 
 def update_screen(
@@ -151,8 +140,6 @@ def update_screen(
     restart_button: Button,
     ball: Ball,
     game_over_msg: GameJoever,
-    score_msg: Score,
-    high_score_msg: HighScore,
 ) -> None:
     """Updates images on the screen, and flips to the new screen."""
     if stats.game_started:
@@ -160,11 +147,9 @@ def update_screen(
         paddle_1.render()
         paddle_2.render()
         scoreboard.lives.draw(screen)
-        score_msg.render()
         ball.render()
 
     if not stats.game_active:
-        high_score_msg.render()
         restart_button.render()
         if stats.game_started:
             game_over_msg.render()
