@@ -123,6 +123,7 @@ def update_positioning(
     settings: Settings,
 ) -> None:
     """Updates positioning of the game objects"""
+    scoreboard.reposition_lives()
     paddle_1.update_position()
     paddle_2.update_position()
     ball.update_position()
@@ -146,7 +147,8 @@ def update_screen(
         screen.fill(settings.bg_colour)
         paddle_1.render()
         paddle_2.render()
-        scoreboard.lives.draw(screen)
+        scoreboard.lives_1.draw(screen)
+        scoreboard.lives_2.draw(screen)
         ball.render()
 
     if not stats.game_active:

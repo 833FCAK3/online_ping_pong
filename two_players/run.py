@@ -16,7 +16,6 @@ def two_players():
     stats = GameStats(settings)
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
     pygame.display.set_caption("Ping Pong Game")
-    scoreboard = Scoreboard(screen, settings, stats)
     clock = pygame.time.Clock()
 
     # Menu items
@@ -26,6 +25,7 @@ def two_players():
     # Game entities
     paddle_1 = Paddle(screen, settings, 1)
     paddle_2 = Paddle(screen, settings, 2)
+    scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings)
 
     while True:
