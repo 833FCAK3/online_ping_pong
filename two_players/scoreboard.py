@@ -22,25 +22,17 @@ class Scoreboard:
         self.paddle_1 = paddle_1
         self.paddle_2 = paddle_2
 
-        self.total_width = 32 * self.stats.lives_left
-
         self.prep_lives()
 
     def prep_lives(self) -> None:
         """Show how many lives are left for each player"""
+        self.total_width = 32 * self.stats.lives_left
+
         self.lives_1 = Group()
-        for life_number in range(self.stats.lives_left):
-            life = Life(self.screen)
-            life.rect.y = self.paddle_1.rect.y
-            life.rect.x = self.paddle_1.rect.centerx - self.total_width // 2 + life_number * life.rect.width
-            self.lives_1.add(life)
+        self.fill_lives(self.lives_1, self.paddle_1)
 
         self.lives_2 = Group()
-        for life_number in range(self.stats.lives_left):
-            life = Life(self.screen)
-            life.rect.y = self.paddle_2.rect.y
-            life.rect.x = self.paddle_2.rect.centerx - self.total_width // 2 + life_number * life.rect.width
-            self.lives_2.add(life)
+        self.fill_lives(self.lives_2, self.paddle_2)
 
     def reposition_lives(self):
         for life_number, life in enumerate(self.lives_1):
@@ -48,3 +40,10 @@ class Scoreboard:
 
         for life_number, life in enumerate(self.lives_2):
             life.rect.x = self.paddle_2.rect.centerx - self.total_width // 2 + life_number * life.rect.width
+
+    def fill_lives(self, group: Group, paddle: Paddle):
+        for life_number in range(self.stats.lives_left):
+            life = Life(self.screen)
+            life.rect.y = paddle.rect.y
+            life.rect.x = paddle.rect.centerx - self.total_width // 2 + life_number * life.rect.width
+            group.add(life)
