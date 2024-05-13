@@ -11,7 +11,8 @@ from two_players.settings import Settings
 
 
 def check_ball_collision(
-    paddle: Paddle,
+    paddle_1: Paddle,
+    paddle_2: Paddle,
     ball: Ball,
     stats: GameStats,
     scoreboard: Scoreboard,
@@ -19,21 +20,16 @@ def check_ball_collision(
     score_msg: Score,
     high_score_msg: HighScore,
 ) -> None:
-    """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case.
-    Utilizes 'vulnerable' flag to not take away multiple lives in sigle bottom touch"""
-    if ball.rect.colliderect(paddle.rect):
-        if not stats.direction_speed_change_lock:
-            stats.direction_speed_change_lock = True
-            ball.moving_down, ball.moving_up = False, True
-            ball.speed *= settings.speed_up_factor
-            scoreboard.score()
-            score_msg.reposition()
-        if ball.rect.bottom >= ball.screen_rect.bottom:
-            stats.vulnerable = True
-    elif ball.rect.bottom >= ball.screen_rect.bottom and stats.vulnerable:
+    """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case"""
+    if ball.rect.collidelist([paddle_1.rect, paddle_2.rect]) >= 0:
+        stats.direction_speed_change_lock = True
+        ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+        ball.speed *= settings.speed_up_factor
+        scoreboard.score()
+        score_msg.reposition()
+    elif ball.rect.bottom >= ball.screen_rect.bottom:
         stats.lives_left -= 1
         scoreboard.prep_lives()
-        stats.vulnerable = False
         if stats.lives_left == 0:
             if stats.score > stats.high_score:
                 stats.high_score = stats.score
@@ -45,14 +41,12 @@ def check_ball_collision(
     # Change direction on collision with left, top or right side of the screen
     if ball.rect.left == ball.screen_rect.left:
         ball.moving_left, ball.moving_right = False, True
-        stats.direction_speed_change_lock = False
     if ball.rect.right == ball.screen_rect.right:
         ball.moving_left, ball.moving_right = True, False
-        stats.direction_speed_change_lock = False
-    if ball.rect.top == ball.screen_rect.top:
-        ball.moving_up, ball.moving_down = False, True
-        stats.direction_speed_change_lock = False
-
+    if ball.rect.bottom >= ball.screen_rect.bottom:
+        ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+    if ball.rect.top <= ball.screen_rect.top:
+        ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
 
 def check_restart_button(
     stats: GameStats,
@@ -144,7 +138,7 @@ def update_positioning(
     paddle_2.update_position()
     ball.update_position()
 
-    check_ball_collision(paddle_1, ball, stats, scoreboard, settings, score_msg, high_score_msg)
+    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, score_msg, high_score_msg)
 
 
 def update_screen(

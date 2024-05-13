@@ -35,8 +35,8 @@ class Ball:
 
     def respawn_ball(self) -> None:
         """Respawns the ball at random location at the top part of the screen and resets its speed"""
-        self.randomize_initial_coords()
-        self.rect.left, self.rect.top = self.x, self.y
+        self.x = self.screen_rect.centerx
+        self.y = self.screen_rect.centery
         self.speed = float(self.settings.ball_speed)
 
     def update_position(self) -> None:
