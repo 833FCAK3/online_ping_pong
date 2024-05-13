@@ -14,5 +14,7 @@ class GameStats:
         self.direction_speed_change_lock = False
 
     def reset_stats(self):
-        self.lives_left = self.settings.total_lives
+        self.lives_left_1 = self.settings.total_lives
+        self.lives_left_2 = self.settings.total_lives
+
         self.vulnerable = True

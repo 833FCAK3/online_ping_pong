@@ -27,7 +27,7 @@ class Paddle:
 
     def center_paddle(self) -> None:
         """Center the paddle on the screen"""
-        self.rect.x = int(self.screen_rect.centerx - self.width / 2)
+        self.x = int(self.screen_rect.centerx - self.width / 2)
 
     def update_position(self) -> None:
         """Update the paddle's position, based on movement flags"""

@@ -28,11 +28,6 @@ class Ball:
         self.moving_down = choice([False, True])
         self.moving_up = not self.moving_down
 
-    def randomize_initial_coords(self) -> None:
-        """Returns two random numbers within limits of screen resolution"""
-        self.x = randint(self.screen_rect.left + self.width, self.screen_rect.right - self.width)
-        self.y = randint(self.screen_rect.top, int(self.screen_rect.bottom / 4))
-
     def respawn_ball(self) -> None:
         """Respawns the ball at random location at the top part of the screen and resets its speed"""
         self.x = self.screen_rect.centerx

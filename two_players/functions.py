@@ -24,12 +24,9 @@ def check_ball_collision(
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
         ball.speed *= settings.speed_up_factor
     elif ball.rect.bottom >= ball.screen_rect.bottom:
-        stats.lives_left -= 1
-        scoreboard.prep_lives()
-        if stats.lives_left == 0:
-            stats.game_active = False
-            pygame.mouse.set_visible(True)
-            return
+        minus_life(stats, scoreboard, 1)
+    elif ball.rect.top <= ball.screen_rect.top:
+        minus_life(stats, scoreboard, 2)
 
     # Change direction on collision with left, top or right side of the screen
     if ball.rect.left == ball.screen_rect.left:
@@ -42,11 +39,25 @@ def check_ball_collision(
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
 
 
+def minus_life(stats: GameStats, scoreboard: Scoreboard, player_number: int):
+    lives_left_str = f"lives_left_{player_number}"
+    lives_left = getattr(stats, lives_left_str) - 1
+
+    setattr(stats, lives_left_str, lives_left)
+
+    scoreboard.prep_lives()
+    if lives_left == 0:
+        stats.game_active = False
+        pygame.mouse.set_visible(True)
+        return
+
+
 def check_restart_button(
     stats: GameStats,
     scoreboard: Scoreboard,
     restart_button: Button,
-    paddle: Paddle,
+    paddle_1: Paddle,
+    paddle_2: Paddle,
     ball: Ball,
     mouse_x,
     mouse_y,
@@ -54,17 +65,18 @@ def check_restart_button(
     """Starts and restarts the game"""
     button_clicked = restart_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked:
-        restart_game(stats, scoreboard, paddle, ball)
+        restart_game(stats, scoreboard, paddle_1, paddle_2, ball)
 
 
-def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball: Ball) -> None:
+def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle_1: Paddle, paddle_2: Paddle, ball: Ball) -> None:
     """Starts and restarts the game"""
     if not stats.game_started:
         stats.game_started = True
 
     if not stats.game_active:
         pygame.mouse.set_visible(False)
-        paddle.center_paddle()
+        paddle_1.center_paddle()
+        paddle_2.center_paddle()
         ball.respawn_ball()
 
         # Reset game stats
@@ -96,7 +108,7 @@ def check_events(
                 case pygame.K_RIGHT:
                     paddle_2.moving_right = True
                 case pygame.K_SPACE:
-                    restart_game(stats, scoreboard, paddle_1, ball)
+                    restart_game(stats, scoreboard, paddle_1, paddle_2, ball)
                 case pygame.K_q:
                     sys.exit()
         elif event.type == pygame.KEYUP:
@@ -111,7 +123,7 @@ def check_events(
                     paddle_2.moving_right = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_restart_button(stats, scoreboard, restart_button, paddle_1, ball, mouse_x, mouse_y)
+            check_restart_button(stats, scoreboard, restart_button, paddle_1, paddle_2, ball, mouse_x, mouse_y)
 
 
 def update_positioning(
