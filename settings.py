@@ -1,3 +1,6 @@
+import pygame
+
+
 class Settings:
     """A class to store all settings for the game"""
 
@@ -6,6 +9,7 @@ class Settings:
         # Screen settings
         self.screen_width = 1920
         self.screen_height = 1080
+        self.display = self.detect_highest_resolution_display()
         self.bg_colour = (200, 200, 200)
         self.fps = 60
         self.fps_adjusment = self.fps // 60
@@ -23,3 +27,8 @@ class Settings:
 
         # Game settings
         self.total_lives = 3
+
+    def detect_highest_resolution_display(self) -> int:
+        display_resolutions = pygame.display.get_desktop_sizes()
+        index = display_resolutions.index(max(display_resolutions))
+        return index

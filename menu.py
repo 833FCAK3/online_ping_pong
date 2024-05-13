@@ -4,7 +4,6 @@ import pygame
 import pygame.freetype
 
 from game_stats import GameStats
-from scoreboard import Scoreboard
 
 
 class Button:
