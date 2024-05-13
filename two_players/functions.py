@@ -134,7 +134,8 @@ def update_positioning(
 def update_screen(
     screen: pygame.Surface,
     settings: Settings,
-    paddle: Paddle,
+    paddle_1: Paddle,
+    paddle_2: Paddle,
     stats: GameStats,
     scoreboard: Scoreboard,
     restart_button: Button,
@@ -146,7 +147,8 @@ def update_screen(
     """Updates images on the screen, and flips to the new screen."""
     if stats.game_started:
         screen.fill(settings.bg_colour)
-        paddle.render()
+        paddle_1.render()
+        paddle_2.render()
         scoreboard.lives.draw(screen)
         score_msg.render()
         ball.render()

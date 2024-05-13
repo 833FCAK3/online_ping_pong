@@ -26,15 +26,26 @@ def two_players():
     high_score_msg = HighScore(screen, stats)
 
     # Game entities
-    paddle = Paddle(screen, settings)
+    paddle_1 = Paddle(screen, settings, 1)
+    paddle_2 = Paddle(screen, settings, 2)
     ball = Ball(screen, settings)
 
     while True:
-        check_events(paddle, stats, scoreboard, restart_button, ball, score_msg)
+        check_events(paddle_1, stats, scoreboard, restart_button, ball, score_msg)
         if stats.game_active:
-            update_positioning(paddle, ball, stats, scoreboard, settings, score_msg, high_score_msg)
+            update_positioning(paddle_1, ball, stats, scoreboard, settings, score_msg, high_score_msg)
         update_screen(
-            screen, settings, paddle, stats, scoreboard, restart_button, ball, game_over_msg, score_msg, high_score_msg
+            screen,
+            settings,
+            paddle_1,
+            paddle_2,
+            stats,
+            scoreboard,
+            restart_button,
+            ball,
+            game_over_msg,
+            score_msg,
+            high_score_msg,
         )
 
         # Limit fps

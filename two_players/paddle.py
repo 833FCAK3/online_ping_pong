@@ -4,7 +4,7 @@ from two_players.settings import Settings
 
 
 class Paddle:
-    def __init__(self, screen: pygame.Surface, settings: Settings) -> None:
+    def __init__(self, screen: pygame.Surface, settings: Settings, player_number: int) -> None:
         """Initialize the ball and set its starting position"""
         self.settings = settings
 
@@ -16,7 +16,11 @@ class Paddle:
         self.width, self.height = self.settings.paddle_width, self.settings.paddle_height
         self.paddle_colour = self.settings.paddle_colour
         self.x = self.screen_rect.centerx - self.width / 2
-        self.y = self.screen_rect.bottom - self.height
+
+        if player_number == 1:
+            self.y = self.screen_rect.bottom - self.height
+        elif player_number == 2:
+            self.y = self.screen_rect.top
 
         # Build the paddle's rect object
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
