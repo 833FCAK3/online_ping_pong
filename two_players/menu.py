@@ -59,8 +59,12 @@ class BaseText(ABC):
 class GameJoever(BaseText):
     def __init__(self, screen: pygame.Surface) -> None:
         super(GameJoever, self).__init__(screen)
-        self.msg = "GAME JOEVER"
+        self.msg = ""
 
+    def render(self) -> None:
+        """Renders the msg to the screen"""
         self.rect = self.font.render(self.msg, self.text_colour)[1]
         self.rect.centerx = self.screen_rect.centerx
-        self.rect.centery = int(self.screen_rect.height / 5)
+        self.rect.centery = int(self.screen_rect.height / 3)
+
+        self.font.render_to(self.screen, self.rect, self.msg, self.text_colour)

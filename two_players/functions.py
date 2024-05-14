@@ -17,6 +17,7 @@ def check_ball_collision(
     stats: GameStats,
     scoreboard: Scoreboard,
     settings: Settings,
+    game_over_msg: GameJoever,
 ) -> None:
     """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen,
     reduces life count in the latter case"""
@@ -33,9 +34,9 @@ def check_ball_collision(
             ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
             ball.speed *= settings.speed_up_factor
     elif ball.rect.bottom >= ball.screen_rect.bottom:
-        minus_life(stats, scoreboard, 1)
+        minus_life(stats, scoreboard, game_over_msg, 1)
     elif ball.rect.top <= ball.screen_rect.top:
-        minus_life(stats, scoreboard, 2)
+        minus_life(stats, scoreboard, game_over_msg, 2)
 
     # Change direction on collision with left, right, top or bottom side of the screen
     if ball.rect.left == ball.screen_rect.left:
@@ -55,7 +56,7 @@ def check_ball_collision(
         ball.lock_1 = False
 
 
-def minus_life(stats: GameStats, scoreboard: Scoreboard, player_number: int):
+def minus_life(stats: GameStats, scoreboard: Scoreboard, game_over_msg: GameJoever, player_number: int):
     lives_left_str = f"lives_left_{player_number}"
     lives_left = getattr(stats, lives_left_str) - 1
 
@@ -63,6 +64,7 @@ def minus_life(stats: GameStats, scoreboard: Scoreboard, player_number: int):
 
     scoreboard.prep_lives()
     if lives_left == 0:
+        game_over_msg.msg = f"PLAYER {int(2 / player_number)} WINS!"
         stats.game_active = False
         pygame.mouse.set_visible(True)
         return
@@ -149,6 +151,7 @@ def update_positioning(
     stats: GameStats,
     scoreboard: Scoreboard,
     settings: Settings,
+    game_over_msg: GameJoever,
 ) -> None:
     """Updates positioning of the game objects"""
     scoreboard.reposition_lives()
@@ -156,7 +159,7 @@ def update_positioning(
     paddle_2.update_position()
     ball.update_position()
 
-    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings)
+    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
 
 
 def update_screen(
