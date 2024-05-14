@@ -11,6 +11,7 @@ class GameStats:
         # Game state
         self.game_active = False
         self.game_started = False
+        self.strikes = 0
 
     def reset_stats(self):
         self.lives_left_1 = self.settings.total_lives

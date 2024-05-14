@@ -3,7 +3,7 @@ import pygame
 from two_players.ball import Ball
 from two_players.functions import check_events, update_positioning, update_screen
 from two_players.game_stats import GameStats
-from two_players.menu import Button, GameJoever
+from two_players.menu import Button, GameJoever, Strikes
 from two_players.paddle import Paddle
 from two_players.scoreboard import Scoreboard
 from two_players.settings import Settings
@@ -21,6 +21,7 @@ def two_players():
     # Menu items
     restart_button = Button(screen, stats, "Restart", "Start")
     game_over_msg = GameJoever(screen)
+    strikes_msg = Strikes(screen, stats)
 
     # Game entities
     paddle_1 = Paddle(screen, settings, 1)
@@ -33,15 +34,7 @@ def two_players():
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
         update_screen(
-            screen,
-            settings,
-            paddle_1,
-            paddle_2,
-            stats,
-            scoreboard,
-            restart_button,
-            ball,
-            game_over_msg,
+            screen, settings, paddle_1, paddle_2, stats, scoreboard, restart_button, ball, game_over_msg, strikes_msg
         )
 
         # Limit fps

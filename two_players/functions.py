@@ -4,7 +4,7 @@ import pygame
 
 from two_players.ball import Ball
 from two_players.game_stats import GameStats
-from two_players.menu import Button, GameJoever
+from two_players.menu import Button, GameJoever, Strikes
 from two_players.paddle import Paddle
 from two_players.scoreboard import Scoreboard
 from two_players.settings import Settings
@@ -28,11 +28,13 @@ def check_ball_collision(
             ball.lock_1 = True
             ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
             ball.speed *= settings.speed_up_factor
+            stats.strikes += 1
     elif collision == 1:
         if not ball.lock_2:
             ball.lock_2 = True
             ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
             ball.speed *= settings.speed_up_factor
+            stats.strikes += 1
     elif ball.rect.bottom >= ball.screen_rect.bottom:
         minus_life(stats, scoreboard, game_over_msg, 1)
     elif ball.rect.top <= ball.screen_rect.top:
@@ -172,6 +174,7 @@ def update_screen(
     restart_button: Button,
     ball: Ball,
     game_over_msg: GameJoever,
+    strikes_msg: Strikes,
 ) -> None:
     """Updates images on the screen, and flips to the new screen."""
     if stats.game_started:
@@ -186,5 +189,6 @@ def update_screen(
         restart_button.render()
         if stats.game_started:
             game_over_msg.render()
+            strikes_msg.render()
 
     pygame.display.flip()
