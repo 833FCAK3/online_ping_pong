@@ -22,12 +22,6 @@ class Ball:
         # Build the ball's rect object
         self.rect = pygame.Rect(0, 0, self.width, self.height)
 
-        # Randomize starting direction
-        self.moving_left = choice([False, True])
-        self.moving_right = not self.moving_left
-        self.moving_down = choice([False, True])
-        self.moving_up = not self.moving_down
-
     def randomize_initial_coords(self) -> None:
         """Returns two random numbers within limits of screen resolution"""
         self.x = randint(self.screen_rect.left + self.width, self.screen_rect.right - self.width)
@@ -38,6 +32,15 @@ class Ball:
         self.randomize_initial_coords()
         self.rect.left, self.rect.top = self.x, self.y
         self.speed = float(self.settings.ball_speed)
+
+        # Randomize starting direction
+        self.moving_left = choice([False, True])
+        self.moving_right = not self.moving_left
+        self.moving_down = choice([False, True])
+        self.moving_up = not self.moving_down
+
+        # Lock preventing ball from getting stuck in the paddle
+        self.lock = False
 
     def update_position(self) -> None:
         """Update the balls's position, based on movement flags"""

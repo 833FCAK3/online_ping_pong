@@ -18,25 +18,41 @@ def check_ball_collision(
     scoreboard: Scoreboard,
     settings: Settings,
 ) -> None:
-    """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case"""
-    if ball.rect.collidelist([paddle_1.rect, paddle_2.rect]) >= 0:
-        stats.direction_speed_change_lock = True
-        ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
-        ball.speed *= settings.speed_up_factor
+    """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen,
+    reduces life count in the latter case"""
+    collision = ball.rect.collidelist([paddle_1.rect, paddle_2.rect])
+
+    if collision == 0:
+        if not ball.lock_1:
+            ball.lock_1 = True
+            ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+            ball.speed *= settings.speed_up_factor
+    elif collision == 1:
+        if not ball.lock_2:
+            ball.lock_2 = True
+            ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+            ball.speed *= settings.speed_up_factor
     elif ball.rect.bottom >= ball.screen_rect.bottom:
         minus_life(stats, scoreboard, 1)
     elif ball.rect.top <= ball.screen_rect.top:
         minus_life(stats, scoreboard, 2)
 
-    # Change direction on collision with left, top or right side of the screen
+    # Change direction on collision with left, right, top or bottom side of the screen
     if ball.rect.left == ball.screen_rect.left:
         ball.moving_left, ball.moving_right = False, True
     if ball.rect.right == ball.screen_rect.right:
         ball.moving_left, ball.moving_right = True, False
     if ball.rect.bottom >= ball.screen_rect.bottom:
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+        ball.lock_1 = True
     if ball.rect.top <= ball.screen_rect.top:
         ball.moving_down, ball.moving_up = not ball.moving_down, not ball.moving_up
+        ball.lock_2 = True
+
+    if ball.rect.y > ball.screen_rect.centery:
+        ball.lock_2 = False
+    elif ball.rect.y < ball.screen_rect.centery:
+        ball.lock_1 = False
 
 
 def minus_life(stats: GameStats, scoreboard: Scoreboard, player_number: int):

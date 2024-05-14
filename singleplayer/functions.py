@@ -22,8 +22,8 @@ def check_ball_collision(
     """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen, reduces life count in the latter case.
     Utilizes 'vulnerable' flag to not take away multiple lives in sigle bottom touch"""
     if ball.rect.colliderect(paddle.rect):
-        if not stats.direction_speed_change_lock:
-            stats.direction_speed_change_lock = True
+        if not ball.lock:
+            ball.lock = True
             ball.moving_down, ball.moving_up = False, True
             ball.speed *= settings.speed_up_factor
             scoreboard.score()
@@ -45,13 +45,13 @@ def check_ball_collision(
     # Change direction on collision with left, top or right side of the screen
     if ball.rect.left == ball.screen_rect.left:
         ball.moving_left, ball.moving_right = False, True
-        stats.direction_speed_change_lock = False
+        ball.lock = False
     if ball.rect.right == ball.screen_rect.right:
         ball.moving_left, ball.moving_right = True, False
-        stats.direction_speed_change_lock = False
+        ball.lock = False
     if ball.rect.top == ball.screen_rect.top:
         ball.moving_up, ball.moving_down = False, True
-        stats.direction_speed_change_lock = False
+        ball.lock = False
 
 
 def check_restart_button(

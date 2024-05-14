@@ -22,17 +22,21 @@ class Ball:
         # Build the ball's rect object
         self.rect = pygame.Rect(0, 0, self.width, self.height)
 
+    def respawn_ball(self) -> None:
+        """Respawns the ball at random location at the top part of the screen and resets its speed"""
+        self.x = self.screen_rect.centerx
+        self.y = self.screen_rect.centery
+        self.speed = float(self.settings.ball_speed)
+
         # Randomize starting direction
         self.moving_left = choice([False, True])
         self.moving_right = not self.moving_left
         self.moving_down = choice([False, True])
         self.moving_up = not self.moving_down
 
-    def respawn_ball(self) -> None:
-        """Respawns the ball at random location at the top part of the screen and resets its speed"""
-        self.x = self.screen_rect.centerx
-        self.y = self.screen_rect.centery
-        self.speed = float(self.settings.ball_speed)
+        # Locks preventing ball from getting stuck in paddles of players
+        self.lock_1 = False
+        self.lock_2 = False
 
     def update_position(self) -> None:
         """Update the balls's position, based on movement flags"""
