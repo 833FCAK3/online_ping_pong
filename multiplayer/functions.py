@@ -119,28 +119,20 @@ def check_events(
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             match event.key:
-                case pygame.K_a:
+                case pygame.K_a | pygame.K_LEFT:
                     paddle_1.moving_left = True
-                case pygame.K_d:
+                case pygame.K_d | pygame.K_RIGHT:
                     paddle_1.moving_right = True
-                case pygame.K_LEFT:
-                    paddle_2.moving_left = True
-                case pygame.K_RIGHT:
-                    paddle_2.moving_right = True
                 case pygame.K_SPACE:
                     restart_game(stats, scoreboard, paddle_1, paddle_2, ball)
                 case pygame.K_q:
                     sys.exit()
         elif event.type == pygame.KEYUP:
             match event.key:
-                case pygame.K_a:
+                case pygame.K_a | pygame.K_LEFT:
                     paddle_1.moving_left = False
-                case pygame.K_d:
+                case pygame.K_d | pygame.K_RIGHT:
                     paddle_1.moving_right = False
-                case pygame.K_LEFT:
-                    paddle_2.moving_left = False
-                case pygame.K_RIGHT:
-                    paddle_2.moving_right = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_restart_button(stats, scoreboard, restart_button, paddle_1, paddle_2, ball, mouse_x, mouse_y)
@@ -157,8 +149,8 @@ def update_positioning(
 ) -> None:
     """Updates positioning of the game objects"""
     scoreboard.reposition_lives()
-    paddle_1.update_position()
-    paddle_2.update_position()
+    paddle_2_x = paddle_1.update_position()
+    paddle_2.update_position(paddle_2_x)
     ball.update_position()
 
     check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
