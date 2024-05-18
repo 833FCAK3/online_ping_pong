@@ -1,8 +1,6 @@
 import pickle
 import socket
-from typing import List
 
-from multiplayer.paddle import Paddle
 from multiplayer.settings import Settings
 
 
@@ -12,12 +10,12 @@ class Network:
         self.server = settings.server_host
         self.port = settings.server_port
         self.addr = (self.server, self.port)
-        self.paddle = self.connect()
+        self.player_num = self.connect()
 
-    def getPaddle(self) -> List[Paddle]:
-        return self.paddle
+    def get_player_number(self) -> int:
+        return self.player_num
 
-    def connect(self) -> List[Paddle]:
+    def connect(self) -> int:
         try:
             self.client.connect(self.addr)
             return pickle.loads(self.client.recv(2048))

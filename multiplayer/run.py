@@ -29,9 +29,19 @@ def multiplayer():
     net = Network(settings)
 
     # Game entities
-    paddle_1, paddle_2 = net.getPaddle()
-    paddle_1.set_screen(screen)
-    paddle_2.set_screen(screen)
+    player_number = net.get_player_number()
+    paddle_1 = Paddle(settings, player_number)
+    paddle_2 = Paddle(settings, int(2 / player_number))
+    paddle_1.post_init(screen, net)
+    paddle_2.post_init(screen, net)
+
+    # Sends x coordinate of player's paddle to the server
+    if player_number == 1:
+        net.send(paddle_1.rect.x)
+    elif player_number == 2:
+        net.send(paddle_2.rect.x)
+    print("Sent x coords to the server")
+
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings)
 

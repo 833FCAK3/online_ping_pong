@@ -1,5 +1,6 @@
 import pygame
 
+from multiplayer.network import Network
 from multiplayer.settings import Settings
 
 
@@ -7,7 +8,6 @@ class Paddle:
     def __init__(self, settings: Settings, player_number: int) -> None:
         """Initialize the ball and set its starting position"""
         self.settings = settings
-
         self.player_number = player_number
 
         # Movement flags
@@ -27,7 +27,11 @@ class Paddle:
 
         self.rect.x = int(self.x)
 
-    def set_screen(self, screen: pygame.Surface):
+        self.net.send(self.rect.x)
+
+    def post_init(self, screen: pygame.Surface, net: Network):
+        self.net = net
+
         # Screen setup
         self.screen = screen
         self.screen_rect = screen.get_rect()
