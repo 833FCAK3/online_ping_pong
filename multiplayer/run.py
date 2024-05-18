@@ -36,10 +36,7 @@ def multiplayer():
     paddle_2.post_init(screen, net)
 
     # Sends x coordinate of player's paddle to the server
-    if player_number == 1:
-        net.send(paddle_1.rect.x)
-    elif player_number == 2:
-        net.send(paddle_2.rect.x)
+    net.send(paddle_1.rect.x)
     print("Sent x coords to the server")
 
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
