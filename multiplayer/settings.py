@@ -28,6 +28,10 @@ class Settings:
         # Game settings
         self.total_lives = 3
 
+        # Connection settings
+        self.server_host = "localhost"
+        self.server_port = 5555
+
     def detect_highest_resolution_display(self) -> int:
         display_resolutions = pygame.display.get_desktop_sizes()
         index = display_resolutions.index(max(display_resolutions))

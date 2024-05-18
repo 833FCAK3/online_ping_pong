@@ -11,11 +11,17 @@ from multiplayer.settings import Settings
 
 
 def multiplayer():
+    # Network
+    net = Network()
+    paddle = net.getPaddle()
+    print(paddle)
+
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()
     stats = GameStats(settings)
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
+    # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=0)
+    screen = pygame.display.set_mode((1400, 770), display=0)
     pygame.display.set_caption("Ping Pong Game")
     clock = pygame.time.Clock()
 
