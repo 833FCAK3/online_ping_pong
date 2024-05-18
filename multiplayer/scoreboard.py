@@ -1,10 +1,10 @@
 import pygame
 from pygame.sprite import Group
 
-from two_players.game_stats import GameStats
-from two_players.life import Life
-from two_players.paddle import Paddle
-from two_players.settings import Settings
+from multiplayer.game_stats import GameStats
+from multiplayer.life import Life
+from multiplayer.paddle import Paddle
+from multiplayer.settings import Settings
 
 
 class Scoreboard:

@@ -1,4 +1,4 @@
-from two_players.settings import Settings
+from multiplayer.settings import Settings
 
 
 class GameStats:

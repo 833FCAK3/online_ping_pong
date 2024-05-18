@@ -1,8 +1,8 @@
-from random import choice, randint
+from random import choice
 
 import pygame
 
-from two_players.settings import Settings
+from multiplayer.settings import Settings
 
 
 class Ball:
