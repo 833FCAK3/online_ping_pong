@@ -1,24 +1,29 @@
 import pickle
 import socket
+from typing import List
+
+from multiplayer.paddle import Paddle
+from multiplayer.settings import Settings
 
 
 class Network:
-    def __init__(self):
+    def __init__(self, settings: Settings):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server = "localhost"
-        self.port = 5555
+        self.server = settings.server_host
+        self.port = settings.server_port
         self.addr = (self.server, self.port)
         self.paddle = self.connect()
 
-    def getPaddle(self):
+    def getPaddle(self) -> List[Paddle]:
         return self.paddle
 
-    def connect(self):
+    def connect(self) -> List[Paddle]:
         try:
             self.client.connect(self.addr)
             return pickle.loads(self.client.recv(2048))
-        except:
-            pass
+        except Exception as e:
+            print(f"Failed to connect to server: {e}")
+            exit(1)
 
     def send(self, data):
         try:

@@ -4,26 +4,11 @@ from multiplayer.settings import Settings
 
 
 class Paddle:
-    def __init__(self, screen: pygame.Surface, settings: Settings, player_number: int) -> None:
+    def __init__(self, settings: Settings, player_number: int) -> None:
         """Initialize the ball and set its starting position"""
         self.settings = settings
 
-        # Screen setup
-        self.screen = screen
-        self.screen_rect = screen.get_rect()
-
-        # Dimensions and properties of the paddle
-        self.width, self.height = self.settings.paddle_width, self.settings.paddle_height
-        self.paddle_colour = self.settings.paddle_colour
-        self.x = self.screen_rect.centerx - self.width / 2
-
-        if player_number == 1:
-            self.y = self.screen_rect.bottom - self.height
-        elif player_number == 2:
-            self.y = self.screen_rect.top
-
-        # Build the paddle's rect object
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.player_number = player_number
 
         # Movement flags
         self.moving_left = False
@@ -41,6 +26,24 @@ class Paddle:
             self.x += self.settings.paddle_speed
 
         self.rect.x = int(self.x)
+
+    def set_screen(self, screen: pygame.Surface):
+        # Screen setup
+        self.screen = screen
+        self.screen_rect = screen.get_rect()
+
+        # Dimensions and properties of the paddle
+        self.width, self.height = self.settings.paddle_width, self.settings.paddle_height
+        self.paddle_colour = self.settings.paddle_colour
+        self.x = self.screen_rect.centerx - self.width / 2
+
+        if self.player_number == 1:
+            self.y = self.screen_rect.bottom - self.height
+        elif self.player_number == 2:
+            self.y = self.screen_rect.top
+
+        # Build the paddle's rect object
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def render(self) -> None:
         """Draw the paddle at its current location"""

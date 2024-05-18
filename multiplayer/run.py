@@ -11,11 +11,6 @@ from multiplayer.settings import Settings
 
 
 def multiplayer():
-    # Network
-    net = Network()
-    paddle = net.getPaddle()
-    print(paddle)
-
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()
@@ -30,9 +25,13 @@ def multiplayer():
     game_over_msg = GameJoever(screen)
     strikes_msg = Strikes(screen, stats)
 
+    # Network
+    net = Network(settings)
+
     # Game entities
-    paddle_1 = Paddle(screen, settings, 1)
-    paddle_2 = Paddle(screen, settings, 2)
+    paddle_1, paddle_2 = net.getPaddle()
+    paddle_1.set_screen(screen)
+    paddle_2.set_screen(screen)
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings)
 

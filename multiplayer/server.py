@@ -5,8 +5,9 @@ import sys
 import threading
 
 import pygame
-from paddle import Paddle
-from settings import Settings
+
+from multiplayer.paddle import Paddle
+from multiplayer.settings import Settings
 
 
 pygame.init()
@@ -25,13 +26,12 @@ s.listen(2)
 s.settimeout(1)  # Set a timeout for the accept call
 print("Server Started, Waiting for a connection")
 
-paddle_1_coords = paddle_2_coords = 960
-paddles = [paddle_1_coords, paddle_2_coords]
+paddles = [Paddle(settings, 1), Paddle(settings, 2)]
 
 
-def threaded_client(conn, player):
+def threaded_client(conn: socket.socket, player):
     try:
-        conn.send(pickle.dumps(paddles[player]))
+        conn.send(pickle.dumps(paddles))
     except Exception as e:
         print(f"Failed to send initial data to player {player}: {e}")
         conn.close()
