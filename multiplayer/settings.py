@@ -7,15 +7,15 @@ class Settings:
     def __init__(self):
         """Initialize the game's static settings"""
         # Screen settings
-        self.screen_width = 1920
-        self.screen_height = 1080
+        self.screen_width = 750
+        self.screen_height = 570
         self.display = self.detect_highest_resolution_display()
         self.bg_colour = (200, 200, 200)
         self.fps = 60
         self.fps_adjusment = self.fps // 60
 
         # Paddle settings
-        self.paddle_width, self.paddle_height = 330, 40
+        self.paddle_width, self.paddle_height = 150, 30  # 330, 40
         self.paddle_colour = (0, 255, 0)
         self.paddle_speed = 35
 

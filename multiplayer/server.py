@@ -26,6 +26,7 @@ s.settimeout(1)  # Set a timeout for the accept call
 print("Server Started, Waiting for a connection")
 
 paddles = [0, 0]
+players_ready = [False, False]
 
 
 def threaded_client(conn: socket.socket, player_num):
@@ -36,6 +37,7 @@ def threaded_client(conn: socket.socket, player_num):
         print(f"Failed to send player number to player_{player_num}: {e}")
         conn.close()
         return
+
     try:
         paddle_x_coord = conn.recv(2048)
         paddle_x_coord = pickle.loads(paddle_x_coord)
@@ -58,14 +60,16 @@ def threaded_client(conn: socket.socket, player_num):
                 break
 
             data = pickle.loads(data)
-            paddles[player_num - 1] = data
             print(f"Player_{player_num} sent data: {data}")
 
-            # Sent opponent's coordinates in response
-            if player_num == 2:
-                reply = paddles[0]
+            if data == "rdy":
+                players_ready[player_num - 1] = True
+
+            if data == "rdy" or "rdy_check":
+                reply = players_ready[1 // player_num]  # Send opponent's ready status
             else:
-                reply = paddles[1]
+                paddles[player_num - 1] = data
+                reply = paddles[1 // player_num]  # Send opponent's coordinates
 
             print(f"Sending to player_{player_num}: {reply}")
             conn.sendall(pickle.dumps(reply))
@@ -74,6 +78,7 @@ def threaded_client(conn: socket.socket, player_num):
             break
 
     print(f"Lost connection to player_{player_num}")
+    players_ready[0], players_ready[1] = False, False
     conn.close()
 
 

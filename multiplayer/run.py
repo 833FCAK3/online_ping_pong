@@ -16,17 +16,17 @@ def multiplayer():
     settings = Settings()
     stats = GameStats(settings)
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=0)
-    screen = pygame.display.set_mode((950, 770), display=1)
+    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height), display=0)
     pygame.display.set_caption("Ping Pong Game")
     clock = pygame.time.Clock()
 
-    # Menu items
-    restart_button = Button(screen, stats, "Restart", "Start")
-    game_over_msg = GameJoever(screen)
-    strikes_msg = Strikes(screen, stats)
-
     # Network
     net = Network(settings)
+
+    # Menu items
+    restart_button = Button(screen, stats, "Ready", "Ready")
+    game_over_msg = GameJoever(screen)
+    strikes_msg = Strikes(screen, stats)
 
     # Game entities
     player_number = net.get_player_number()
@@ -44,7 +44,7 @@ def multiplayer():
     ball = Ball(screen, settings)
 
     while True:
-        check_events(paddle_1, paddle_2, stats, scoreboard, restart_button, ball)
+        check_events(paddle_1, paddle_2, stats, scoreboard, restart_button, ball, net)
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
         update_screen(
