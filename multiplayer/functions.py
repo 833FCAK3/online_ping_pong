@@ -20,10 +20,12 @@ def check_ball_collision(
     scoreboard: Scoreboard,
     settings: Settings,
     game_over_msg: GameJoever,
+    player_number: int,
 ) -> None:
     """Changes ball's direction and speed on collision with the paddle, left, right, top and bottom of the screen,
     reduces life count in the latter case"""
-    collision = ball.rect.collidelist([paddle_1.rect, paddle_2.rect])
+    paddles = [paddle_1.rect, paddle_2.rect] if player_number == 1 else [paddle_2.rect, paddle_1.rect]
+    collision = ball.rect.collidelist(paddles)
 
     if collision == 0:
         if not ball.lock_1:
@@ -170,6 +172,7 @@ def update_positioning(
     scoreboard: Scoreboard,
     settings: Settings,
     game_over_msg: GameJoever,
+    player_number: int,
 ) -> None:
     """Updates positioning of the game objects"""
     scoreboard.reposition_lives()
@@ -177,7 +180,7 @@ def update_positioning(
     paddle_2.update_position(paddle_2_x)
     ball.update_position()
 
-    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
+    check_ball_collision(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg, player_number)
 
 
 def update_screen(
