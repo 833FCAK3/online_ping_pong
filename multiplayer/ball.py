@@ -1,14 +1,14 @@
-from random import choice
-
 import pygame
 
+from multiplayer.network import Network
 from multiplayer.settings import Settings
 
 
 class Ball:
-    def __init__(self, screen: pygame.Surface, settings: Settings) -> None:
+    def __init__(self, screen: pygame.Surface, settings: Settings, net: Network) -> None:
         """Initialize the ball and set its starting position and movement direction"""
         self.settings = settings
+        self.net = net
 
         # Screen setup
         self.screen = screen
@@ -29,9 +29,9 @@ class Ball:
         self.speed = float(self.settings.ball_speed)
 
         # Randomize starting direction
-        self.moving_left = choice([False, True])
+        self.moving_left = self.net.send("ball_moving_left")
         self.moving_right = not self.moving_left
-        self.moving_down = choice([False, True])
+        self.moving_down = self.net.send("ball_moving_down")
         self.moving_up = not self.moving_down
 
         # Locks preventing ball from getting stuck in paddles of players

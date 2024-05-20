@@ -3,6 +3,7 @@ import signal
 import socket
 import sys
 import threading
+from random import choice
 
 import pygame
 
@@ -67,6 +68,8 @@ def threaded_client(conn: socket.socket, player_num):
 
             if data == "rdy" or "rdy_check":
                 reply = players_ready[1 // player_num]  # Send opponent's ready status
+            elif "ball_moving" in data:
+                reply = choice([True, False])
             else:
                 paddles[player_num - 1] = data
                 reply = paddles[1 // player_num]  # Send opponent's coordinates

@@ -41,10 +41,9 @@ def multiplayer():
     print("Sent x coords to the server")
 
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
-    ball = Ball(screen, settings)
+    ball = Ball(screen, settings, net)
 
     while True:
-        check_events(paddle_1, paddle_2, stats, scoreboard, restart_button, ball, net)
         check_events(paddle_1, paddle_2, stats, scoreboard, settings, restart_button, ball, net)
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
