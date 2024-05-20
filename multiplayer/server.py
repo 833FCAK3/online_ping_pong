@@ -10,6 +10,13 @@ import pygame
 from multiplayer.settings import Settings
 
 
+def reset_game_state():
+    global paddles, players_ready, ball_directions
+    paddles = [0, 0]
+    players_ready = [False, False]
+    ball_directions = [choice([True, False]), choice([True, False])]
+
+
 pygame.init()
 
 settings = Settings()
@@ -26,8 +33,8 @@ s.listen(2)
 s.settimeout(1)  # Set a timeout for the accept call
 print("Server Started, Waiting for a connection")
 
-paddles = [0, 0]
-players_ready = [False, False]
+
+reset_game_state()
 
 
 def threaded_client(conn: socket.socket, player_num):
@@ -66,10 +73,12 @@ def threaded_client(conn: socket.socket, player_num):
             if data == "rdy":
                 players_ready[player_num - 1] = True
 
-            if data == "rdy" or "rdy_check":
+            if data == "rdy" or data == "rdy_check":
                 reply = players_ready[1 // player_num]  # Send opponent's ready status
-            elif "ball_moving" in data:
-                reply = choice([True, False])
+            elif data == "ball_moving_left":
+                reply = ball_directions[0]
+            elif data == "ball_moving_down":
+                reply = ball_directions[1]
             else:
                 paddles[player_num - 1] = data
                 reply = paddles[1 // player_num]  # Send opponent's coordinates
@@ -81,7 +90,7 @@ def threaded_client(conn: socket.socket, player_num):
             break
 
     print(f"Lost connection to player_{player_num}")
-    players_ready[0], players_ready[1] = False, False
+    reset_game_state()
     conn.close()
 
 
