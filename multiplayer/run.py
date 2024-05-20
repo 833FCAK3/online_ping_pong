@@ -46,7 +46,7 @@ def multiplayer():
     while True:
         check_events(paddle_1, paddle_2, stats, scoreboard, settings, restart_button, ball, net)
         if stats.game_active:
-            update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg, player_number)
+            update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, net, game_over_msg, player_number)
         update_screen(
             screen, settings, paddle_1, paddle_2, stats, scoreboard, restart_button, ball, game_over_msg, strikes_msg
         )

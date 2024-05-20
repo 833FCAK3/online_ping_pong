@@ -75,6 +75,9 @@ def threaded_client(conn: socket.socket, player_num):
 
             if data == "rdy" or data == "rdy_check":
                 reply = players_ready[1 // player_num]  # Send opponent's ready status
+            elif data == "game over":
+                players_ready[player_num - 1] = False
+                reply = "200"
             elif data == "ball_moving_left":
                 reply = ball_directions[0]
             elif data == "ball_moving_down":
