@@ -10,9 +10,11 @@ import pygame
 from multiplayer.settings import Settings
 
 
+paddles = [0, 0]
+
+
 def reset_game_state():
-    global paddles, players_ready, ball_directions
-    paddles = [0, 0]
+    global players_ready, ball_directions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
 
@@ -77,6 +79,8 @@ def threaded_client(conn: socket.socket, player_num):
                 reply = players_ready[1 // player_num]  # Send opponent's ready status
             elif data == "game over":
                 players_ready[player_num - 1] = False
+                if not any(players_ready):
+                    reset_game_state()
                 reply = "200"
             elif data == "ball_moving_left":
                 reply = ball_directions[0]
