@@ -5,7 +5,7 @@ import pygame
 
 from multiplayer.ball import Ball
 from multiplayer.game_stats import GameStats
-from multiplayer.menu import Button, GameJoever, Strikes
+from multiplayer.menu import Arrow, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle
 from multiplayer.scoreboard import Scoreboard
@@ -204,8 +204,12 @@ def update_screen(
     ball: Ball,
     game_over_msg: GameJoever,
     strikes_msg: Strikes,
+    arrow: Arrow,
 ) -> None:
     """Updates images on the screen, and flips to the new screen."""
+    if not stats.game_started:
+        arrow.render()
+
     if stats.game_started:
         screen.fill(settings.bg_colour)
         paddle_1.render()

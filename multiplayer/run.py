@@ -3,7 +3,7 @@ import pygame
 from multiplayer.ball import Ball
 from multiplayer.functions import check_events, update_positioning, update_screen
 from multiplayer.game_stats import GameStats
-from multiplayer.menu import Button, GameJoever, Strikes
+from multiplayer.menu import Arrow, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle
 from multiplayer.scoreboard import Scoreboard
@@ -23,11 +23,6 @@ def multiplayer():
     # Network
     net = Network(settings)
 
-    # Menu items
-    restart_button = Button(screen, stats, "Ready", "Ready")
-    game_over_msg = GameJoever(screen)
-    strikes_msg = Strikes(screen, stats)
-
     # Game entities
     player_number = net.get_player_number()
     print(f"player_{player_number}")  # TODO: display in a proper way on prep screen
@@ -40,15 +35,33 @@ def multiplayer():
     net.send(paddle_1.rect.x)
     print("Sent x coords to the server")
 
+    # Menu items
+    restart_button = Button(screen, stats, "Ready", "Ready")
+    game_over_msg = GameJoever(screen)
+    strikes_msg = Strikes(screen, stats)
+    arrow = Arrow(screen, player_number)
+
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings, net)
 
     while True:
         check_events(paddle_1, paddle_2, stats, scoreboard, settings, restart_button, ball, net)
+
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, net, game_over_msg, player_number)
+
         update_screen(
-            screen, settings, paddle_1, paddle_2, stats, scoreboard, restart_button, ball, game_over_msg, strikes_msg
+            screen,
+            settings,
+            paddle_1,
+            paddle_2,
+            stats,
+            scoreboard,
+            restart_button,
+            ball,
+            game_over_msg,
+            strikes_msg,
+            arrow,
         )
 
         # Limit fps
