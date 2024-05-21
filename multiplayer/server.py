@@ -10,33 +10,10 @@ import pygame
 from multiplayer.settings import Settings
 
 
-paddles = [0, 0]
-
-
 def reset_game_state():
     global players_ready, ball_directions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
-
-
-pygame.init()
-
-settings = Settings()
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-try:
-    s.bind((settings.server_host, settings.server_port))
-except socket.error as e:
-    print(e)
-    sys.exit(1)
-
-s.listen(2)
-s.settimeout(1)  # Set a timeout for the accept call
-print("Server Started, Waiting for a connection")
-
-
-reset_game_state()
 
 
 def threaded_client(conn: socket.socket, player_num):
@@ -106,6 +83,26 @@ def signal_handler(sig, frame):
     s.close()
     sys.exit(0)
 
+
+# Run server
+pygame.init()
+settings = Settings()
+paddles = [0, 0]
+
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+try:
+    s.bind(("", settings.server_port))
+except socket.error as e:
+    print(e)
+    sys.exit(1)
+
+s.listen(2)
+s.settimeout(1)  # Set a timeout for the accept call
+print("Server Started, Waiting for a connection")
+
+reset_game_state()
 
 signal.signal(signal.SIGINT, signal_handler)
 
