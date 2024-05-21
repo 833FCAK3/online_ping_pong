@@ -31,7 +31,7 @@ class Button:
         self.alt_msg_rect = self.font.render(self.alt_msg, self.text_colour)[1]
         self.alt_msg_rect.center = self.screen_rect.center
 
-    def render(self):
+    def render(self) -> None:
         """Draw the button on the screen"""
         text = self.msg if self.stats.game_started else self.alt_msg
         rect = self.msg_rect if self.stats.game_started else self.alt_msg_rect
@@ -103,5 +103,5 @@ class Arrow:
         elif player_number == 2:
             self.image = pygame.transform.rotate(self.image, 180)
 
-    def render(self):
+    def render(self) -> None:
         self.screen.blit(self.image, self.blit_to)

@@ -10,13 +10,13 @@ import pygame
 from multiplayer.settings import Settings
 
 
-def reset_game_state():
+def reset_game_state() -> None:
     global players_ready, ball_directions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
 
 
-def threaded_client(conn: socket.socket, player_num):
+def threaded_client(conn: socket.socket, player_num) -> None:
     try:
         conn.send(pickle.dumps(player_num))
         print(f"Player number sent to player_{player_num}")
@@ -78,10 +78,10 @@ def threaded_client(conn: socket.socket, player_num):
     conn.close()
 
 
-def signal_handler(sig, frame):
+def signal_handler(sig, frame) -> None:
     print("Interrupt received, shutting down...")
     s.close()
-    sys.exit(0)
+    sys.exit()
 
 
 # Run server

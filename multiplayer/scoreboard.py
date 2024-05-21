@@ -35,14 +35,14 @@ class Scoreboard:
         self.lives_2 = Group()
         self.fill_lives(self.lives_2, self.paddle_2, self.stats.lives_left_2, self.total_width_2)
 
-    def reposition_lives(self):
+    def reposition_lives(self) -> None:
         for life_number, life in enumerate(self.lives_1):
             life.rect.x = self.paddle_1.rect.centerx - self.total_width_1 // 2 + life_number * life.rect.width
 
         for life_number, life in enumerate(self.lives_2):
             life.rect.x = self.paddle_2.rect.centerx - self.total_width_2 // 2 + life_number * life.rect.width
 
-    def fill_lives(self, group: Group, paddle: Paddle, lives_left: int, total_width: int):
+    def fill_lives(self, group: Group, paddle: Paddle, lives_left: int, total_width: int) -> None:
         for life_number in range(lives_left):
             life = Life(self.screen)
             life.rect.y = paddle.rect.y

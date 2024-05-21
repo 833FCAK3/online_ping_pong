@@ -9,7 +9,7 @@ from singleplayer.scoreboard import Scoreboard
 from singleplayer.settings import Settings
 
 
-def single_player():
+def single_player() -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()

@@ -4,7 +4,7 @@ import pygame
 class Settings:
     """A class to store all settings for the game"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the game's static settings"""
         # Screen settings
         self.screen_width = 750

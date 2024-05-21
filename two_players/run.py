@@ -9,7 +9,7 @@ from two_players.scoreboard import Scoreboard
 from two_players.settings import Settings
 
 
-def two_players():
+def two_players() -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()

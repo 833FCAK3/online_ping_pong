@@ -10,7 +10,7 @@ from multiplayer.scoreboard import Scoreboard
 from multiplayer.settings import Settings
 
 
-def multiplayer():
+def multiplayer() -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     settings = Settings()

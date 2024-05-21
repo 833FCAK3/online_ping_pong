@@ -58,7 +58,7 @@ def check_ball_collision(
         ball.lock_1 = False
 
 
-def minus_life(stats: GameStats, scoreboard: Scoreboard, game_over_msg: GameJoever, player_number: int):
+def minus_life(stats: GameStats, scoreboard: Scoreboard, game_over_msg: GameJoever, player_number: int) -> None:
     lives_left_str = f"lives_left_{player_number}"
     lives_left = getattr(stats, lives_left_str) - 1
 
@@ -69,7 +69,6 @@ def minus_life(stats: GameStats, scoreboard: Scoreboard, game_over_msg: GameJoev
         game_over_msg.msg = f"PLAYER {int(2 / player_number)} WINS!"
         stats.game_active = False
         pygame.mouse.set_visible(True)
-        return
 
 
 def check_restart_button(

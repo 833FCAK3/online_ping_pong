@@ -14,7 +14,7 @@ class GameStats:
 
         self.high_score = 0
 
-    def reset_stats(self):
+    def reset_stats(self) -> None:
         self.lives_left = self.settings.total_lives
         self.vulnerable = True
         self.strikes = 0

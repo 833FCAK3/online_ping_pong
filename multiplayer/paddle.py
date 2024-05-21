@@ -37,7 +37,7 @@ class Paddle:
             else:
                 self.rect.x = paddle_2_x
 
-    def post_init(self, screen: pygame.Surface, net: Network):
+    def post_init(self, screen: pygame.Surface, net: Network) -> None:
         self.net = net
 
         # Screen setup
