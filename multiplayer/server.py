@@ -21,7 +21,7 @@ def reset_game_state() -> None:
     global players_ready, ball_directions, resolutions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
-    resolutions = [None, None]
+    resolutions = []
 
 
 def threaded_client(conn: socket.socket, player_num) -> None:
@@ -39,8 +39,7 @@ def threaded_client(conn: socket.socket, player_num) -> None:
         resolution = conn.recv(2048)
         resolution = pickle.loads(resolution)
         print(f"Received maximum resolution for player_{player_num}: {resolution}")
-        resolutions[player_num - 1] = resolution
-        print(player_num, resolution, resolutions)
+        resolutions.append(resolution)
         conn.sendall(pickle.dumps(""))
     except Exception as e:
         print(f"Failed to receive player_{player_num} maximum resolution: {e}")
@@ -59,7 +58,7 @@ def threaded_client(conn: socket.socket, player_num) -> None:
             data = pickle.loads(data)
             print(f"Player_{player_num} sent data: {data}")
             if data == "rez":
-                if all(resolutions):
+                if len(resolutions) == 2:
                     reply = min(resolutions)
                 else:
                     reply = None
