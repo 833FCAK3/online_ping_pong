@@ -1,5 +1,3 @@
-from abc import ABC
-
 import pygame
 import pygame.freetype
 
@@ -52,16 +50,19 @@ class Button(BaseButton):
         self.font.render_to(self.screen, rect, text, self.text_colour)
 
 
-class BaseText(ABC):
-    def __init__(self, screen: pygame.Surface, font_size: int) -> None:
+class BaseText:
+    def __init__(self, screen: pygame.Surface, font_size: int, msg: str = "") -> None:
         self.screen = screen
         self.screen_rect = screen.get_rect()
-        self.msg: str
-        self.rect: pygame.rect.Rect
+        self.msg = msg
 
         # Text parameters
         self.text_colour = (255, 255, 255)
         self.font = pygame.freetype.SysFont("None", font_size)
+
+        self.rect = self.font.render(self.msg, self.text_colour)[1]
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centery = self.screen_rect.height // 4
 
     def render(self) -> None:
         """Renders the msg to the screen"""

@@ -21,10 +21,11 @@ def reset_game_state() -> None:
     global players_ready, ball_directions, resolutions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
-    resolutions = []
+    resolutions = [None, None]
 
 
 def threaded_client(conn: socket.socket, player_num) -> None:
+    # Send player number
     try:
         conn.send(pickle.dumps(player_num))
         print(f"Player number sent to player_{player_num}")
@@ -33,17 +34,21 @@ def threaded_client(conn: socket.socket, player_num) -> None:
         conn.close()
         return
 
+    # Retrieve maximum resolution player can run
     try:
         resolution = conn.recv(2048)
         resolution = pickle.loads(resolution)
         print(f"Received maximum resolution for player_{player_num}: {resolution}")
-        resolutions.append(resolution)
+        resolutions[player_num - 1] = resolution
+        print(player_num, resolution, resolutions)
         conn.sendall(pickle.dumps(""))
     except Exception as e:
         print(f"Failed to receive player_{player_num} maximum resolution: {e}")
         conn.close()
+        reset_game_state()
         return
 
+    # Send the lowest resolution to both clients
     while True:
         try:
             data = conn.recv(2048)
@@ -54,16 +59,23 @@ def threaded_client(conn: socket.socket, player_num) -> None:
             data = pickle.loads(data)
             print(f"Player_{player_num} sent data: {data}")
             if data == "rez":
-                if len(resolutions) == 2:
-                    conn.send(pickle.dumps(min(resolutions)))
-                    break
+                if all(resolutions):
+                    reply = min(resolutions)
                 else:
-                    conn.send(pickle.dumps(None))
+                    reply = None
+
+            print(f"Sending to player_{player_num}: {reply}")
+            conn.sendall(pickle.dumps(reply))
+            if reply:
+                break
 
         except (pickle.UnpicklingError, EOFError, socket.error) as e:
             print(f"Error receiving/sending data for player_{player_num}: {e}")
-            break
+            conn.close()
+            reset_game_state()
+            return
 
+    # Retrieve paddle coordinate
     try:
         paddle_x_coord = conn.recv(2048)
         paddle_x_coord = pickle.loads(paddle_x_coord)
@@ -74,6 +86,7 @@ def threaded_client(conn: socket.socket, player_num) -> None:
     except Exception as e:
         print(f"Failed to receive player_{player_num} paddle coordinate: {e}")
         conn.close()
+        reset_game_state()
         return
 
     print(f"Client {player_num} connected, initial data sent and received")

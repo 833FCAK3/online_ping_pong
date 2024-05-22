@@ -4,26 +4,30 @@ import pygame
 
 from game_stats import GameStats
 from multiplayer.ball import Ball
-from multiplayer.functions import check_events, update_positioning, update_screen
-from multiplayer.menu import Arrow, Button, GameJoever, Strikes
+from multiplayer.functions import check_events, check_exit, update_positioning, update_screen
+from multiplayer.menu import Arrow, BaseText, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle
 from multiplayer.scoreboard import Scoreboard
 from settings import Settings
 
 
-def multiplayer(settings: Settings) -> None:
+def multiplayer(settings: Settings, screen: pygame.Surface) -> None:
     # Network
     net = Network(settings)
 
     net.send(settings.max_rez)
 
+    waiting_msg = BaseText(screen, 50, "Waiting for the other player to connect")
+    waiting_msg.render()
+    pygame.display.flip()
+
+    # Retrieve negotiated resolution
     resolution = None
     while not resolution:
+        check_exit()
         resolution = net.send("rez")
         time.sleep(1 / 30)
-
-    print(resolution)
 
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()

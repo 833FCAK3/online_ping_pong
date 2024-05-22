@@ -35,7 +35,7 @@ while True:
             elif two_players_button.rect.collidepoint(mouse_x, mouse_y):
                 two_players(settings)
             elif multiplayer_button.rect.collidepoint(mouse_x, mouse_y):
-                multiplayer(settings)
+                multiplayer(settings, screen)
 
     single_player_button.render()
     two_players_button.render()

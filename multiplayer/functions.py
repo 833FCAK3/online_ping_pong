@@ -116,6 +116,7 @@ def restart_game(
     net.send("rdy")
 
     while True:
+        check_exit()
         opponent_rdy = net.send("rdy_check")
         if opponent_rdy == True:
             break
@@ -171,6 +172,16 @@ def check_events(
             check_restart_button(
                 stats, scoreboard, settings, restart_button, paddle_1, paddle_2, ball, net, mouse_x, mouse_y
             )
+
+
+def check_exit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            match event.key:
+                case pygame.K_q:
+                    sys.exit()
 
 
 def update_positioning(
