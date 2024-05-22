@@ -2,7 +2,6 @@ import sys
 
 import pygame
 
-from game_stats import GameStats
 from menu import BaseButton
 from multiplayer.run import multiplayer
 from singleplayer.run import single_player
@@ -29,7 +28,12 @@ while True:
                     sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            # check mouse click
+            if single_player_button.rect.collidepoint(mouse_x, mouse_y):
+                single_player()
+            elif two_players_button.rect.collidepoint(mouse_x, mouse_y):
+                two_players()
+            elif multiplayer_button.rect.collidepoint(mouse_x, mouse_y):
+                multiplayer()
 
     single_player_button.render()
     two_players_button.render()
