@@ -1,8 +1,8 @@
 import pygame
 
+from game_stats import GameStats
 from singleplayer.ball import Ball
 from singleplayer.functions import check_events, update_positioning, update_screen
-from singleplayer.game_stats import GameStats
 from singleplayer.menu import Button, GameJoever, HighScore, Score
 from singleplayer.paddle import Paddle
 from singleplayer.scoreboard import Scoreboard

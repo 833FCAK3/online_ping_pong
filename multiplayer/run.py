@@ -1,8 +1,8 @@
 import pygame
 
+from game_stats import GameStats
 from multiplayer.ball import Ball
 from multiplayer.functions import check_events, update_positioning, update_screen
-from multiplayer.game_stats import GameStats
 from multiplayer.menu import Arrow, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle

@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Group
 
-from singleplayer.game_stats import GameStats
+from game_stats import GameStats
 from singleplayer.life import Life
 from singleplayer.settings import Settings
 
@@ -21,7 +21,7 @@ class Scoreboard:
     def prep_lives(self) -> None:
         """Show how many lives are left"""
         self.lives = Group()
-        for life_number in range(self.stats.lives_left):
+        for life_number in range(self.stats.lives_left_1):
             life = Life(self.screen)
             life.rect.x = 10 + life_number * life.rect.width
             life.rect.y = 10

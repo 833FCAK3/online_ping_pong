@@ -1,8 +1,8 @@
 import pygame
 import pygame.freetype
 
+from game_stats import GameStats
 from menu import BaseText, Button, GameJoever
-from two_players.game_stats import GameStats
 
 
 class Strikes(BaseText):

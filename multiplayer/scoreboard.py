@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Group
 
-from multiplayer.game_stats import GameStats
+from game_stats import GameStats
 from multiplayer.life import Life
 from multiplayer.paddle import Paddle
 from multiplayer.settings import Settings

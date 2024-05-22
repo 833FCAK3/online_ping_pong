@@ -2,8 +2,8 @@ import sys
 
 import pygame
 
+from game_stats import GameStats
 from singleplayer.ball import Ball
-from singleplayer.game_stats import GameStats
 from singleplayer.menu import Button, GameJoever, HighScore, Score
 from singleplayer.paddle import Paddle
 from singleplayer.scoreboard import Scoreboard
@@ -31,10 +31,10 @@ def check_ball_collision(
         if ball.rect.bottom >= ball.screen_rect.bottom:
             stats.vulnerable = True
     elif ball.rect.bottom >= ball.screen_rect.bottom and stats.vulnerable:
-        stats.lives_left -= 1
+        stats.lives_left_1 -= 1
         scoreboard.prep_lives()
         stats.vulnerable = False
-        if stats.lives_left == 0:
+        if stats.lives_left_1 == 0:
             if stats.score > stats.high_score:
                 stats.high_score = stats.score
                 high_score_msg.reposition()
