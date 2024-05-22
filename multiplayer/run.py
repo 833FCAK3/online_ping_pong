@@ -1,3 +1,5 @@
+import time
+
 import pygame
 
 from game_stats import GameStats
@@ -11,20 +13,29 @@ from settings import Settings
 
 
 def multiplayer(settings: Settings) -> None:
-    # Initialize screen, game settings, statistics, scoreboard, fps limiter
-    pygame.init()
-    stats = GameStats(settings)
-    # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=0)
-    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height), display=0)
-    pygame.display.set_caption("Ping Pong Game")
-    clock = pygame.time.Clock()
-
     # Network
     net = Network(settings)
 
+    net.send(settings.max_rez)
+
+    resolution = None
+    while not resolution:
+        resolution = net.send("rez")
+        time.sleep(1 / 30)
+
+    print(resolution)
+
+    # Initialize screen, game settings, statistics, scoreboard, fps limiter
+    pygame.init()
+    stats = GameStats(settings)
+    screen = pygame.display.set_mode((resolution[0], resolution[1]), pygame.FULLSCREEN)
+
+    pygame.display.set_caption("Ping Pong Game")
+    clock = pygame.time.Clock()
+
     # Game entities
     player_number = net.get_player_number()
-    print(f"player_{player_number}")  # TODO: display in a proper way on prep screen
+    print(f"player_{player_number}")
     paddle_1 = Paddle(settings, player_number, 1)
     paddle_2 = Paddle(settings, player_number, 2)
     paddle_1.post_init(screen, net)

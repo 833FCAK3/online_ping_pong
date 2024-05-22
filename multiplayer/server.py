@@ -7,13 +7,21 @@ from random import choice
 
 import pygame
 
-from multiplayer.settings import Settings
+from settings import Settings
+
+
+pygame.init()
+settings = Settings()
+paddles = [0, 0]
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def reset_game_state() -> None:
-    global players_ready, ball_directions
+    global players_ready, ball_directions, resolutions
     players_ready = [False, False]
     ball_directions = [choice([True, False]), choice([True, False])]
+    resolutions = []
 
 
 def threaded_client(conn: socket.socket, player_num) -> None:
@@ -24,6 +32,37 @@ def threaded_client(conn: socket.socket, player_num) -> None:
         print(f"Failed to send player number to player_{player_num}: {e}")
         conn.close()
         return
+
+    try:
+        resolution = conn.recv(2048)
+        resolution = pickle.loads(resolution)
+        print(f"Received maximum resolution for player_{player_num}: {resolution}")
+        resolutions.append(resolution)
+        conn.sendall(pickle.dumps(""))
+    except Exception as e:
+        print(f"Failed to receive player_{player_num} maximum resolution: {e}")
+        conn.close()
+        return
+
+    while True:
+        try:
+            data = conn.recv(2048)
+            if not data:
+                print(f"No data received from player_{player_num}")
+                break
+
+            data = pickle.loads(data)
+            print(f"Player_{player_num} sent data: {data}")
+            if data == "rez":
+                if len(resolutions) == 2:
+                    conn.send(pickle.dumps(min(resolutions)))
+                    break
+                else:
+                    conn.send(pickle.dumps(None))
+
+        except (pickle.UnpicklingError, EOFError, socket.error) as e:
+            print(f"Error receiving/sending data for player_{player_num}: {e}")
+            break
 
     try:
         paddle_x_coord = conn.recv(2048)
@@ -85,13 +124,6 @@ def signal_handler(sig, frame) -> None:
 
 
 # Run server
-pygame.init()
-settings = Settings()
-paddles = [0, 0]
-
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 try:
     s.bind(("", settings.server_port))
 except socket.error as e:
