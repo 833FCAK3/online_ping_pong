@@ -3,11 +3,11 @@ import sys
 import pygame
 
 from game_stats import GameStats
+from settings import Settings
 from singleplayer.ball import Ball
 from singleplayer.menu import Button, GameJoever, HighScore, Score
 from singleplayer.paddle import Paddle
 from singleplayer.scoreboard import Scoreboard
-from singleplayer.settings import Settings
 
 
 def check_ball_collision(

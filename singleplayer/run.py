@@ -1,18 +1,17 @@
 import pygame
 
 from game_stats import GameStats
+from settings import Settings
 from singleplayer.ball import Ball
 from singleplayer.functions import check_events, update_positioning, update_screen
 from singleplayer.menu import Button, GameJoever, HighScore, Score
 from singleplayer.paddle import Paddle
 from singleplayer.scoreboard import Scoreboard
-from singleplayer.settings import Settings
 
 
-def single_player() -> None:
+def single_player(settings: Settings) -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
-    settings = Settings()
     stats = GameStats(settings)
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
     pygame.display.set_caption("Ping Pong Game")

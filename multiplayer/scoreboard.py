@@ -4,7 +4,7 @@ from pygame.sprite import Group
 from game_stats import GameStats
 from multiplayer.life import Life
 from multiplayer.paddle import Paddle
-from multiplayer.settings import Settings
+from settings import Settings
 
 
 class Scoreboard:

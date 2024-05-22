@@ -1,6 +1,6 @@
 import pygame
 
-from singleplayer.settings import Settings
+from settings import Settings
 
 
 class Paddle:

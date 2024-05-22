@@ -4,12 +4,14 @@ import pygame
 
 from menu import BaseButton
 from multiplayer.run import multiplayer
+from settings import Settings
 from singleplayer.run import single_player
 from two_players.run import two_players
 
 
 pygame.init()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=0)
+settings = Settings()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
 
 
 clock = pygame.time.Clock()
@@ -29,11 +31,11 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if single_player_button.rect.collidepoint(mouse_x, mouse_y):
-                single_player()
+                single_player(settings)
             elif two_players_button.rect.collidepoint(mouse_x, mouse_y):
-                two_players()
+                two_players(settings)
             elif multiplayer_button.rect.collidepoint(mouse_x, mouse_y):
-                multiplayer()
+                multiplayer(settings)
 
     single_player_button.render()
     two_players_button.render()

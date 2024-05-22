@@ -7,13 +7,12 @@ from multiplayer.menu import Arrow, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle
 from multiplayer.scoreboard import Scoreboard
-from multiplayer.settings import Settings
+from settings import Settings
 
 
-def multiplayer() -> None:
+def multiplayer(settings: Settings) -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
-    settings = Settings()
     stats = GameStats(settings)
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=0)
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height), display=0)

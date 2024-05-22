@@ -2,7 +2,7 @@ import pickle
 import socket
 from typing import Any
 
-from multiplayer.settings import Settings
+from settings import Settings
 
 
 class Network:

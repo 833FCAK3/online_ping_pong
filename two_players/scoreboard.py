@@ -2,9 +2,9 @@ import pygame
 from pygame.sprite import Group
 
 from game_stats import GameStats
+from settings import Settings
 from two_players.life import Life
 from two_players.paddle import Paddle
-from two_players.settings import Settings
 
 
 class Scoreboard:

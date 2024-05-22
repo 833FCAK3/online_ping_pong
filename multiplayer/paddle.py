@@ -1,7 +1,7 @@
 import pygame
 
 from multiplayer.network import Network
-from multiplayer.settings import Settings
+from settings import Settings
 
 
 class Paddle:

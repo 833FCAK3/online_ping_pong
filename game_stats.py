@@ -1,12 +1,10 @@
-from multiplayer.settings import Settings as mSettings
-from singleplayer.settings import Settings as sSettings
-from two_players.settings import Settings as tSettings
+from settings import Settings
 
 
 class GameStats:
     """Track statistics and game state"""
 
-    def __init__(self, settings: sSettings | tSettings | mSettings) -> None:
+    def __init__(self, settings: Settings) -> None:
         self.settings = settings
         self.reset_stats()
 

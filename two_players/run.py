@@ -1,18 +1,17 @@
 import pygame
 
 from game_stats import GameStats
+from settings import Settings
 from two_players.ball import Ball
 from two_players.functions import check_events, update_positioning, update_screen
 from two_players.menu import Button, GameJoever, Strikes
 from two_players.paddle import Paddle
 from two_players.scoreboard import Scoreboard
-from two_players.settings import Settings
 
 
-def two_players() -> None:
+def two_players(settings: Settings) -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
-    settings = Settings()
     stats = GameStats(settings)
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
     pygame.display.set_caption("Ping Pong Game")

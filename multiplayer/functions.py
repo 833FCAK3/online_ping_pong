@@ -9,7 +9,7 @@ from multiplayer.menu import Arrow, Button, GameJoever, Strikes
 from multiplayer.network import Network
 from multiplayer.paddle import Paddle
 from multiplayer.scoreboard import Scoreboard
-from multiplayer.settings import Settings
+from settings import Settings
 
 
 def check_ball_collision(
