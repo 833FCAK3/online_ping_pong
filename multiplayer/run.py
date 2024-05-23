@@ -32,8 +32,7 @@ def multiplayer(settings: Settings, screen: pygame.Surface) -> None:
     # Initialize screen, game settings, statistics, scoreboard, fps limiter
     pygame.init()
     stats = GameStats(settings)
-    display = pygame.display.get_desktop_sizes().index(resolution)
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display)
+    screen = pygame.display.set_mode(resolution, pygame.FULLSCREEN, display=settings.display)
 
     pygame.display.set_caption("Ping Pong Game")
     clock = pygame.time.Clock()
