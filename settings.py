@@ -1,6 +1,11 @@
 from typing import Tuple
 
 import pygame
+import yaml
+
+
+config = yaml.safe_load(open("settings.yml"))
+print(config)
 
 
 class Settings:
@@ -9,30 +14,31 @@ class Settings:
     def __init__(self) -> None:
         """Initialize the game's static settings"""
         # Screen settings
-        self.screen_width = 750
-        self.screen_height = 570
+        self.screen_width = config["screen_width"]
+        self.screen_height = config["screen_height"]
         self.max_rez, self.display = self.detect_highest_resolution_display()
-        self.bg_colour = (200, 200, 200)
-        self.fps = 60
+        self.bg_colour = tuple(config["bg_colour"])
+        print(self.bg_colour, type(self.bg_colour))
+        self.fps = config["fps"]
         self.fps_adjusment = self.fps // 60
 
         # Paddle settings
-        self.paddle_width, self.paddle_height = 330, 40
-        self.paddle_colour = (0, 255, 0)
-        self.paddle_speed = 35
+        self.paddle_width, self.paddle_height = config["paddle_width"], config["paddle_height"]
+        self.paddle_colour = tuple(config["paddle_colour"])
+        self.paddle_speed = config["paddle_speed"]
 
         # Ball settings
-        self.ball_width, self.ball_height = 50, 50
-        self.ball_colour = (0, 0, 0)
-        self.ball_speed = 6
-        self.speed_up_factor = 1.05
+        self.ball_width, self.ball_height = config["ball_width"], config["ball_height"]
+        self.ball_colour = tuple(config["ball_colour"])
+        self.ball_speed = config["ball_speed"]
+        self.speed_up_factor = config["speed_up_factor"]
 
         # Game settings
-        self.total_lives = 3
+        self.total_lives = config["total_lives"]
 
         # Connection settings
-        self.server_host = "localhost"
-        self.server_port = 5555
+        self.server_host = config["server_host"]
+        self.server_port = config["server_port"]
 
     def detect_highest_resolution_display(self) -> Tuple[Tuple[int, int], int]:
         """Finds the highest available resolution"""
