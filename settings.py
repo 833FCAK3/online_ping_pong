@@ -5,7 +5,6 @@ import yaml
 
 
 config = yaml.safe_load(open("settings.yml"))
-print(config)
 
 
 class Settings:
@@ -18,7 +17,6 @@ class Settings:
         self.screen_height = config["screen_height"]
         self.max_rez, self.display = self.detect_highest_resolution_display()
         self.bg_colour = tuple(config["bg_colour"])
-        print(self.bg_colour, type(self.bg_colour))
         self.fps = config["fps"]
         self.fps_adjusment = self.fps // 60
 
