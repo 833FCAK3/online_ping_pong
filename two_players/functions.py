@@ -105,6 +105,7 @@ def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle_1: Paddle, pad
 
 
 def check_events(
+    run: list[bool],
     paddle_1: Paddle,
     paddle_2: Paddle,
     stats: GameStats,
@@ -129,7 +130,8 @@ def check_events(
                 case pygame.K_SPACE:
                     restart_game(stats, scoreboard, paddle_1, paddle_2, ball)
                 case pygame.K_q:
-                    sys.exit()
+                    run[0] = False
+                    pygame.mouse.set_visible(True)
         elif event.type == pygame.KEYUP:
             match event.key:
                 case pygame.K_a:

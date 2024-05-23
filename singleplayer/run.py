@@ -28,8 +28,9 @@ def single_player(settings: Settings) -> None:
     paddle = Paddle(screen, settings)
     ball = Ball(screen, settings)
 
-    while True:
-        check_events(paddle, stats, scoreboard, restart_button, ball, score_msg)
+    run = [True]
+    while run[0]:
+        check_events(run, paddle, stats, scoreboard, restart_button, ball, score_msg)
         if stats.game_active:
             update_positioning(paddle, ball, stats, scoreboard, settings, score_msg, high_score_msg)
         update_screen(

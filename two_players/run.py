@@ -28,8 +28,9 @@ def two_players(settings: Settings) -> None:
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings)
 
-    while True:
-        check_events(paddle_1, paddle_2, stats, scoreboard, restart_button, ball)
+    run = [True]
+    while run[0]:
+        check_events(run, paddle_1, paddle_2, stats, scoreboard, restart_button, ball)
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, game_over_msg)
         update_screen(

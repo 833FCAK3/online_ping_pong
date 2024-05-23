@@ -59,8 +59,9 @@ def multiplayer(settings: Settings, screen: pygame.Surface) -> None:
     scoreboard = Scoreboard(screen, settings, stats, paddle_1, paddle_2)
     ball = Ball(screen, settings, net)
 
-    while True:
-        check_events(paddle_1, paddle_2, stats, scoreboard, settings, restart_button, ball, net)
+    run = [True]
+    while run[0]:
+        check_events(run, paddle_1, paddle_2, stats, scoreboard, settings, restart_button, ball, net)
 
         if stats.game_active:
             update_positioning(paddle_1, paddle_2, ball, stats, scoreboard, settings, net, game_over_msg, player_number)

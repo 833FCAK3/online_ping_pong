@@ -88,7 +88,13 @@ def restart_game(stats: GameStats, scoreboard: Scoreboard, paddle: Paddle, ball:
 
 
 def check_events(
-    paddle: Paddle, stats: GameStats, scoreboard: Scoreboard, restart_button: Button, ball: Ball, score_msg: Score
+    run: list[bool],
+    paddle: Paddle,
+    stats: GameStats,
+    scoreboard: Scoreboard,
+    restart_button: Button,
+    ball: Ball,
+    score_msg: Score,
 ) -> None:
     """Responds to keypresses and mouse events."""
     for event in pygame.event.get():
@@ -103,7 +109,8 @@ def check_events(
                 case pygame.K_SPACE:
                     restart_game(stats, scoreboard, paddle, ball, score_msg)
                 case pygame.K_q:
-                    sys.exit()
+                    run[0] = False
+                    pygame.mouse.set_visible(True)
         elif event.type == pygame.KEYUP:
             match event.key:
                 case pygame.K_a:
