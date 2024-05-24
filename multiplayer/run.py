@@ -1,6 +1,7 @@
 import time
 
 import pygame
+from screeninfo import get_monitors
 
 from game_stats import GameStats
 from multiplayer.ball import Ball
@@ -13,6 +14,9 @@ from settings import Settings
 
 
 def multiplayer(settings: Settings, screen: pygame.Surface) -> None:
+    # This somehow makes pygame.display.get_desktop_sizes work properly on laptops if done before pygame.init xd
+    get_monitors()
+
     # Network
     net = Network(settings)
 
@@ -36,12 +40,11 @@ def multiplayer(settings: Settings, screen: pygame.Surface) -> None:
     try:
         display = pygame.display.get_desktop_sizes().index(resolution)
         if display == settings.display:
-            screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN, display=settings.display)
+            screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN, display=settings.display)
         else:
             screen = pygame.display.set_mode(resolution, display=settings.display)
     except ValueError:
         screen = pygame.display.set_mode(resolution, display=settings.display)
-        
 
     pygame.display.set_caption("Ping Pong Game")
     clock = pygame.time.Clock()
