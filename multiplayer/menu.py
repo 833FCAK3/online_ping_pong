@@ -3,6 +3,7 @@ import pygame.freetype
 
 from game_stats import GameStats
 from menu import BaseText, Button, GameJoever
+from utils import make_path
 
 
 class Strikes(BaseText):
@@ -29,7 +30,7 @@ class Arrow:
         self.screen_rect = screen.get_rect()
 
         # Get the arrow image, get its rect
-        self.image = pygame.image.load("multiplayer/images/arrow.png")
+        self.image = pygame.image.load(make_path("multiplayer/images/arrow.png"))
         self.rect = self.image.get_rect()
         self.blit_to = [self.screen_rect.centerx - self.rect.width / 2, 0]
 
